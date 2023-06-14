@@ -7,8 +7,3 @@ export interface KeyboardButtonProps {
   action?: KeyboardAction
   letter?: AllowedLetters
 }
-
-export interface HandleClickParam {
-  action?: KeyboardAction
-  letter?: AllowedLetters
-}

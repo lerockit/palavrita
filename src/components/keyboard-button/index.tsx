@@ -1,22 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { WORD_SIZE } from '../../constants'
+import { GlobalContext } from '../../contexts/global'
 import { AllowedLetters, KeyboardAction } from '../keyboard/interfaces'
-import { HandleClickParam, KeyboardButtonProps } from './interfaces'
-
-const handleClick = ({ action, letter }: HandleClickParam) => {
-  if (letter) return handleLetterPress(letter)
-  handleAction(action)
-}
-
-const handleLetterPress = (letter: AllowedLetters) => {
-  console.log(letter)
-}
-
-const handleAction = (action: KeyboardAction | undefined) => {
-  if (action === 'DELETE') return console.log('deletar')
-  console.log('confirmar')
-}
-
-const a = () => 'aaa'
+import { KeyboardButtonProps } from './interfaces'
 
 const KeyboardButton: React.FC<KeyboardButtonProps> = ({
   children,
@@ -24,13 +10,34 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
   action,
   letter,
 }) => {
+  const { setActualGuess, actualGuess } = useContext(GlobalContext)
+
+  const handleClick = () => {
+    if (letter) return handleLetterPress(letter)
+    handleAction(action)
+  }
+
+  const handleLetterPress = (letter: AllowedLetters) => {
+    if (actualGuess.letters.length >= WORD_SIZE) return
+    setActualGuess([...actualGuess.letters, letter])
+  }
+
+  const handleAction = (action: KeyboardAction | undefined) => {
+    if (action === 'DELETE') return handleDeletePress()
+    console.log('confirmar')
+  }
+
+  const handleDeletePress = () => {
+    if (!actualGuess.letters.length) return
+    setActualGuess([...actualGuess.letters].slice(0, -1))
+  }
+
   return (
     <button
       className={`h-10 w-[10%] min-w-[1.75rem] flex justify-center items-center border-slate-50 border-2 rounded-sm font-medium text-lg ${classes}`}
-      onClick={() => handleClick({ action, letter })}
+      onClick={handleClick}
     >
-      {/* {letter || children} */}
-      {a()}
+      {letter || children}
     </button>
   )
 }

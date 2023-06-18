@@ -15,29 +15,34 @@ vi.mock('../components/keyboard-button', async (importOriginal) => {
 })
 
 describe('<KeyboardButton />', () => {
-  // afterEach(() => {
-  //   vi.clearAllMocks()
-  // })
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
 
-  // it('Should render letter and not children element when letter is passed as props', () => {
-  //   const letterMock = 'A'
-  //   const mockChildren = <div data-testid="mock-children"></div>
-  //   render(<KeyboardButton letter={letterMock}>{mockChildren}</KeyboardButton>)
-  //   const letterElement = screen.queryByText(letterMock)
-  //   const childrenElement = screen.queryByTestId('mock-children')
-  //   expect(letterElement).toBeInTheDocument()
-  //   expect(childrenElement).not.toBeInTheDocument()
-  // })
+  it('Should render letter and not children element when letter is passed as props', () => {
+    const letterMock = 'A'
+    const mockChildren = <div data-testid="mock-children"></div>
+    const mockHandleClick = () => vi.fn()
+    render(
+      <KeyboardButton letter={letterMock} handleClick={mockHandleClick}>
+        {mockChildren}
+      </KeyboardButton>
+    )
+    const letterElement = screen.queryByText(letterMock)
+    const childrenElement = screen.queryByTestId('mock-children')
+    expect(letterElement).toBeInTheDocument()
+    expect(childrenElement).not.toBeInTheDocument()
+  })
 
-  // it('Should render children when a letter is not passed as props', () => {
-  //   const mockChildren = <div data-testid="mock-children"></div>
-  //   render(<KeyboardButton>{mockChildren}</KeyboardButton>)
-  //   const childrenElement = screen.queryByTestId('mock-children')
-  //   expect(childrenElement).toBeInTheDocument()
-  // })
-
-  it('Should call handleLetterPress when a letter is passed as props', () => {
-    render(<KeyboardButton letter="A" />)
-    expect(screen.queryByText('aaa')).toBeInTheDocument()
+  it('Should render children when a letter is not passed as props', () => {
+    const mockChildren = <div data-testid="mock-children"></div>
+    const mockHandleClick = () => vi.fn()
+    render(
+      <KeyboardButton handleClick={mockHandleClick}>
+        {mockChildren}
+      </KeyboardButton>
+    )
+    const childrenElement = screen.queryByTestId('mock-children')
+    expect(childrenElement).toBeInTheDocument()
   })
 })

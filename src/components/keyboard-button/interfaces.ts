@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
-import { AllowedLetters, KeyboardAction } from '../keyboard/interfaces'
+import { AllowedLetter } from '../keyboard/interfaces'
 
 export interface KeyboardButtonProps {
+  handleClick: () => void
   children?: ReactNode
   classes?: string
-  action?: KeyboardAction
-  letter?: AllowedLetters
+  letter?: AllowedLetter
 }

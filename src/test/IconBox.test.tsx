@@ -9,7 +9,7 @@ describe('Should render IconBox correctly', () => {
     render(<IconBox iconElement={iconMock} data-testid="icon-box" />)
 
     const iconBoxElement = screen.getByTestId('icon-box')
-    const defaultClasses = 'w-3.5 h-3.5 text-slate-50'
+    const defaultClasses = 'w-4 h-4 text-slate-50'
 
     expect(iconBoxElement).toHaveClass(defaultClasses)
   })

@@ -5,19 +5,19 @@ import IconBox from '../icon-box'
 import BackspaceIcon from '../icons/backspace'
 import KeyboardButton from '../keyboard-button'
 import {
-  AllowedLetter,
+  AllowedLetterId,
   KeyboardAction,
   KeyboardActionButton,
   KeyboardButtonHandler,
 } from './interfaces'
 
-const lettersGroups: AllowedLetter[][] = [
+const lettersIdsGroups: AllowedLetterId[][] = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
 ]
 
-const allLetters = lettersGroups.flat(2)
+const allLetters = lettersIdsGroups.flat(2)
 
 const keyboardActionButtons: KeyboardActionButton[] = [
   { keyboardRow: 1, action: 'DELETE' },
@@ -28,8 +28,8 @@ const Keyboard: React.FC = () => {
   const { addLetter, removeLetter, confirmCurrentGuess, currentGuess } =
     useContext(GlobalContext)
 
-  const handleClick: KeyboardButtonHandler = ({ letter, action }) => {
-    if (letter) return handleLetterPress(letter)
+  const handleClick: KeyboardButtonHandler = ({ letterId, action }) => {
+    if (letterId) return handleLetterPress(letterId)
     handleAction(action)
   }
 
@@ -39,14 +39,15 @@ const Keyboard: React.FC = () => {
       const action = ACTIONS_KEY_MAPPER[keyPressed]
       if (action) return handleAction(action)
 
-      const isValidLetter = allLetters.includes(keyPressed as AllowedLetter)
+      const isValidLetter = allLetters.includes(keyPressed as AllowedLetterId)
 
-      if (isValidLetter) handleLetterPress(keyPressed as AllowedLetter)
+      if (isValidLetter) handleLetterPress(keyPressed as AllowedLetterId)
     },
     [currentGuess]
   )
 
-  const handleLetterPress = (letter: AllowedLetter) => addLetter(letter)
+  const handleLetterPress = (letterId: AllowedLetterId) =>
+    addLetter({ id: letterId, status: null })
 
   const handleAction = (action: KeyboardAction | undefined) => {
     if (action === 'DELETE') return removeLetter()
@@ -61,7 +62,7 @@ const Keyboard: React.FC = () => {
           handleClick={() => handleClick({ action: 'DELETE' })}
           data-testid="delete-button"
         >
-          <IconBox iconElement={BackspaceIcon} color="purple-500" size="lg" />
+          <IconBox iconElement={BackspaceIcon} color="purple-500" />
         </KeyboardButton>
       ),
       CONFIRM: (
@@ -98,13 +99,13 @@ const Keyboard: React.FC = () => {
 
   return (
     <div className="w-full px-2 flex flex-col gap-4 pb-6">
-      {lettersGroups.map((letters, keyboardRow) => (
+      {lettersIdsGroups.map((lettersIds, keyboardRow) => (
         <div className="flex gap-2" key={keyboardRow}>
-          {letters.map((letter) => (
+          {lettersIds.map((letterId) => (
             <KeyboardButton
-              key={letter}
-              letter={letter}
-              handleClick={() => handleClick({ letter })}
+              key={letterId}
+              letterId={letterId}
+              handleClick={() => handleClick({ letterId })}
             />
           ))}
           {getKeyboardActionButtonByRow(keyboardRow)}

@@ -1,4 +1,4 @@
-interface UseDatabase {
+export interface UseDataBaseHook {
   allowedWords: string[]
   getDailyWord: () => string
 }

@@ -13,6 +13,12 @@ export default {
       fontFamily: {
         sans: ['Rubik', ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        DEFAULT: '1px 5px 3px rgba(0, 0, 0, .25)',
+      },
+      dropShadow: {
+        DEFAULT: '1px 5px 2px rgba(0, 0, 0, 0.25)',
+      },
     },
   },
   plugins: [],

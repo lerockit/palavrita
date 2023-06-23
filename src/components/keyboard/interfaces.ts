@@ -6,7 +6,7 @@ export interface KeyboardActionButton {
 
 export type KeyboardAction = 'CONFIRM' | 'DELETE'
 
-export type AllowedLetter =
+export type AllowedLetterId =
   | 'Q'
   | 'W'
   | 'E'
@@ -39,6 +39,6 @@ export type KeyboardButtonHandler = (
 ) => void
 
 interface KeyboardButtonHandlerParams {
-  letter?: AllowedLetter
+  letterId?: AllowedLetterId
   action?: KeyboardAction
 }

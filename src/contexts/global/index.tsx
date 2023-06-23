@@ -1,12 +1,13 @@
 import React, { ReactNode, createContext, useState } from 'react'
-import { AllowedLetter } from '../../components/keyboard/interfaces'
 import { GUESSES_AMOUNT, WORD_SIZE } from '../../constants'
 import { useDatabase } from '../../hooks/useDatabase'
+import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
 import {
+  GameFinishStatus,
   GlobalContextInterface,
   Guess,
   Guesses,
-  LetterWithStatus,
+  Letter,
 } from './interface'
 
 export const globalContextDefault: GlobalContextInterface = {
@@ -15,7 +16,11 @@ export const globalContextDefault: GlobalContextInterface = {
   removeLetter: null as any,
   confirmCurrentGuess: null as any,
   previousGuesses: [],
+  getPreviousLetters: null as any,
   hasError: false,
+  gameFinishStatus: null,
+  setGameFinishStatus: null as any,
+  refreshGame: null as any,
 }
 
 export const GlobalContext =
@@ -23,49 +28,54 @@ export const GlobalContext =
 
 const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { allowedWords, getDailyWord } = useDatabase()
+  const gameStatusStorage = useGameStatusStorage()
+  const dailyWordLetters = getDailyWord().split('')
 
-  const [currentGuess, setCurrentGuess] = useState<Guess>({
+  const [currentGuess, setCurrentGuessState] = useState<Guess>({
     word: '',
     letters: [],
   })
 
-  const addLetter = (letter: AllowedLetter) => {
-    if (currentGuess.word.length >= WORD_SIZE) return
-    const letters = [...currentGuess.letters, letter]
-    setCurrentGuess({
+  const getWordByLetters = (letters: Letter[]) =>
+    letters.reduce(
+      (previousLetter, currentLetter) => `${previousLetter}${currentLetter.id}`,
+      ''
+    )
+
+  const setCurrentGuess = (letters: Letter[]) => {
+    const word = getWordByLetters(letters)
+    setCurrentGuessState({
       letters,
-      word: letters.join(''),
+      word,
     })
+  }
+
+  const addLetter = (letter: Letter) => {
+    if (currentGuess.word.length >= WORD_SIZE || !!gameFinishStatus) return
+    setCurrentGuess([...currentGuess.letters, letter])
   }
 
   const removeLetter = () => {
     if (!currentGuess.word.length) return
-    const letters = currentGuess.letters.slice(0, -1)
-    setCurrentGuess({
-      letters,
-      word: letters.join(''),
-    })
+    setCurrentGuess(currentGuess.letters.slice(0, -1))
     setHasError(false)
   }
 
-  const cleanCurrentGuess = () => setCurrentGuess({ letters: [], word: '' })
+  const cleanCurrentGuess = () => setCurrentGuess([])
 
-  const getLettersStatus: (letter: AllowedLetter[]) => LetterWithStatus[] = (
-    letters
-  ) => {
-    const dailyWordLetters = getDailyWord().split('')
-    const displacedLetters = letters.map<LetterWithStatus>((letter) => {
-      return dailyWordLetters.includes(letter)
+  const setLettersStatus: (letter: Letter[]) => Letter[] = (letters) => {
+    const displacedLetters = letters.map<Letter>((letter) => {
+      return dailyWordLetters.includes(letter.id)
         ? {
-            id: letter,
+            id: letter.id,
             status: 'DISPLACED',
           }
         : {
-            id: letter,
+            id: letter.id,
             status: 'INCORRECT',
           }
     })
-    return displacedLetters.map<LetterWithStatus>((letter, index) => {
+    return displacedLetters.map<Letter>((letter, index) => {
       return dailyWordLetters[index] === letter.id
         ? {
             ...letter,
@@ -75,29 +85,58 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     })
   }
 
-  const confirmCurrentGuess = () => {
-    if (currentGuess.word.length < WORD_SIZE) return
-    if (!allowedWords.includes(currentGuess.word)) return setHasError(true)
-    // Aqui sera a finalizaçao do jogo
-    if (previousGuesses.length >= GUESSES_AMOUNT - 1) return
-    addPreviousGuess(currentGuess.letters)
-    cleanCurrentGuess()
-    setHasError(false)
+  const [previousGuesses, setPreviousGuesses] = useState<Guesses>(
+    gameStatusStorage.getGuesses()
+  )
+
+  const addPreviousGuess = (letters: Letter[]) => {
+    const word = getWordByLetters(letters)
+    const lettersWithStatus = setLettersStatus(letters)
+    const newGuess = { word, letters: lettersWithStatus }
+    gameStatusStorage.addGuess(newGuess)
+    setPreviousGuesses([...previousGuesses, newGuess])
   }
 
-  const [previousGuesses, setPreviousGuesses] = useState<Guesses>([])
-
-  const addPreviousGuess = (letters: AllowedLetter[]) => {
-    const word = letters.join('')
-    const lettersWithStatus = getLettersStatus(letters)
-    setPreviousGuesses([
-      ...previousGuesses,
-      { word, letters: lettersWithStatus },
-    ])
-    console.log(previousGuesses)
+  const getPreviousLetters = () => {
+    return previousGuesses
+      .map<Letter[]>((previousGuess) => previousGuess.letters)
+      .flat()
   }
 
   const [hasError, setHasError] = useState<boolean>(false)
+  const [gameFinishStatus, setGameFinishStatus] =
+    useState<GameFinishStatus>(null)
+
+  const allLettersMatch = (): boolean => {
+    return (
+      currentGuess.letters.filter((letter, index) => {
+        return dailyWordLetters[index] === letter.id
+      }).length === WORD_SIZE
+    )
+  }
+
+  const hasGuessesLeft = (): boolean => {
+    return previousGuesses.length < GUESSES_AMOUNT - 1
+  }
+
+  const finishGame = (gameFinishStatus: GameFinishStatus) => {
+    setGameFinishStatus(gameFinishStatus)
+    gameStatusStorage.finishGame(gameFinishStatus)
+  }
+
+  const confirmCurrentGuess = () => {
+    if (currentGuess.word.length < WORD_SIZE) return
+    if (!allowedWords.includes(currentGuess.word)) return setHasError(true)
+
+    addPreviousGuess(currentGuess.letters)
+    cleanCurrentGuess()
+    setHasError(false)
+
+    if (allLettersMatch()) return finishGame('WON')
+    if (!hasGuessesLeft()) return finishGame('LOST')
+  }
+
+  const refreshGame = () => {}
 
   return (
     <GlobalContext.Provider
@@ -107,7 +146,11 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         removeLetter,
         confirmCurrentGuess,
         previousGuesses,
+        getPreviousLetters,
         hasError,
+        gameFinishStatus,
+        setGameFinishStatus,
+        refreshGame,
       }}
     >
       {children}

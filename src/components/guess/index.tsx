@@ -1,19 +1,10 @@
 import React, { ReactNode } from 'react'
 import { WORD_SIZE } from '../../constants'
-import { GuessWithStatus } from '../../contexts/global/interface'
+import GuessLetter from '../guess-letter'
 import { GuessProps } from './interface'
 
 const GuessContainer: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="font-bold text-xl flex justify-between w-full">
-    {children}
-  </div>
-)
-
-const GuessLetterContainer: React.FC<{
-  children?: ReactNode
-  isCurrent?: boolean
-}> = ({ children }) => (
-  <div className="border-2 border-slate-50 rounded-sm w-10 h-10 flex justify-center items-center">
+  <div className="font-bold text-2xl flex justify-between w-full">
     {children}
   </div>
 )
@@ -23,19 +14,24 @@ const Guess: React.FC<GuessProps> = ({ guess }) => {
     return (
       <GuessContainer>
         {Array.from(Array(WORD_SIZE), (_, letterIndex) => (
-          <GuessLetterContainer key={letterIndex} />
+          <GuessLetter key={letterIndex} letterIndex={letterIndex} />
         ))}
       </GuessContainer>
     )
 
-  const { letters, isCurrent } = guess as GuessWithStatus
+  const { letters, isCurrent } = guess
 
   return (
     <GuessContainer>
       {Array.from(Array(WORD_SIZE), (_, letterIndex) => (
-        <GuessLetterContainer key={letterIndex} isCurrent={isCurrent}>
-          <span>{letters[letterIndex].id}</span>
-        </GuessLetterContainer>
+        <GuessLetter
+          key={letterIndex}
+          isCurrent={isCurrent}
+          letterStatus={letters[letterIndex]?.status}
+          letterIndex={letterIndex}
+        >
+          <span className="drop-shadow">{letters[letterIndex]?.id}</span>
+        </GuessLetter>
       ))}
     </GuessContainer>
   )

@@ -5,6 +5,7 @@ export interface IconBoxProps {
   size?: IconSizes
   color?: string
   classes?: string
+  hasShadow?: boolean
 }
 
-export type IconSizes = 'md' | 'lg'
+export type IconSizes = 'sm' | 'md' | 'lg'

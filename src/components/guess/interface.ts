@@ -1,5 +1,5 @@
-import { Guess, GuessWithStatus } from '../../contexts/global/interface'
+import { Guess } from '../../contexts/global/interface'
 
 export interface GuessProps {
-  guess?: GuessWithStatus | (Guess & { isCurrent?: boolean })
+  guess?: Guess & { isCurrent?: boolean }
 }

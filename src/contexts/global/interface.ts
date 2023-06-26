@@ -11,6 +11,8 @@ export interface GlobalContextInterface {
   gameFinishStatus: GameFinishStatus
   setGameFinishStatus: (GameFinishStatus: GameFinishStatus) => void
   refreshGame: () => void
+  currentPage: Page
+  setCurrentPage: (page: Page) => void
 }
 
 export interface Guess {
@@ -28,3 +30,5 @@ export type LetterStatus = 'CORRECT' | 'DISPLACED' | 'INCORRECT'
 export type Guesses = Guess[]
 
 export type GameFinishStatus = 'WON' | 'LOST' | null
+
+export type Page = 'HOME' | 'STATISTICS' | 'HELP' | 'ABOUT'

@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useState } from 'react'
 import { GUESSES_AMOUNT, WORD_SIZE } from '../../constants'
-import { useDatabase } from '../../hooks/useDatabase'
+import { allowedWords } from '../../database'
 import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
 import {
   GameFinishStatus,
@@ -8,6 +8,7 @@ import {
   Guess,
   Guesses,
   Letter,
+  Page,
 } from './interface'
 
 export const globalContextDefault: GlobalContextInterface = {
@@ -21,20 +22,33 @@ export const globalContextDefault: GlobalContextInterface = {
   gameFinishStatus: null,
   setGameFinishStatus: null as any,
   refreshGame: null as any,
+  currentPage: 'HOME',
+  setCurrentPage: null as any,
 }
 
 export const GlobalContext =
   createContext<GlobalContextInterface>(globalContextDefault)
 
 const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { allowedWords, getDailyWord } = useDatabase()
   const gameStatusStorage = useGameStatusStorage()
-  const dailyWordLetters = getDailyWord().split('')
+  const gameStatusStoragePayload = useGameStatusStorage().getPayload()
+  const dailyWordLetters = gameStatusStoragePayload.dailyWord.split('')
 
   const [currentGuess, setCurrentGuessState] = useState<Guess>({
     word: '',
     letters: [],
   })
+
+  const [previousGuesses, setPreviousGuesses] = useState<Guesses>(
+    gameStatusStoragePayload.guesses
+  )
+
+  const [hasError, setHasError] = useState<boolean>(false)
+  const [gameFinishStatus, setGameFinishStatus] = useState<GameFinishStatus>(
+    gameStatusStoragePayload.gameFinishStatus
+  )
+
+  const [currentPage, setCurrentPage] = useState<Page>('HOME')
 
   const getWordByLetters = (letters: Letter[]) =>
     letters.reduce(
@@ -64,30 +78,32 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const cleanCurrentGuess = () => setCurrentGuess([])
 
   const setLettersStatus: (letter: Letter[]) => Letter[] = (letters) => {
-    const displacedLetters = letters.map<Letter>((letter) => {
-      return dailyWordLetters.includes(letter.id)
-        ? {
-            id: letter.id,
-            status: 'DISPLACED',
-          }
-        : {
-            id: letter.id,
-            status: 'INCORRECT',
-          }
-    })
-    return displacedLetters.map<Letter>((letter, index) => {
-      return dailyWordLetters[index] === letter.id
-        ? {
-            ...letter,
-            status: 'CORRECT',
-          }
-        : letter
-    })
-  }
+    const dailyWordLettersToCompare = [...dailyWordLetters]
 
-  const [previousGuesses, setPreviousGuesses] = useState<Guesses>(
-    gameStatusStorage.getGuesses()
-  )
+    const lettersWithStatus = letters.map<Letter>((letter, index) => {
+      if (dailyWordLettersToCompare.includes(letter.id)) {
+        const indexToRemove = dailyWordLettersToCompare.indexOf(letter.id)
+        dailyWordLettersToCompare.splice(indexToRemove, indexToRemove)
+
+        return dailyWordLetters[index] === letter.id
+          ? {
+              ...letter,
+              status: 'CORRECT',
+            }
+          : {
+              ...letter,
+              status: 'DISPLACED',
+            }
+      }
+
+      return {
+        id: letter.id,
+        status: 'INCORRECT',
+      }
+    })
+
+    return lettersWithStatus
+  }
 
   const addPreviousGuess = (letters: Letter[]) => {
     const word = getWordByLetters(letters)
@@ -102,10 +118,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       .map<Letter[]>((previousGuess) => previousGuess.letters)
       .flat()
   }
-
-  const [hasError, setHasError] = useState<boolean>(false)
-  const [gameFinishStatus, setGameFinishStatus] =
-    useState<GameFinishStatus>(null)
 
   const allLettersMatch = (): boolean => {
     return (
@@ -122,6 +134,7 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const finishGame = (gameFinishStatus: GameFinishStatus) => {
     setGameFinishStatus(gameFinishStatus)
     gameStatusStorage.finishGame(gameFinishStatus)
+    setCurrentPage('STATISTICS')
   }
 
   const confirmCurrentGuess = () => {
@@ -151,6 +164,8 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         gameFinishStatus,
         setGameFinishStatus,
         refreshGame,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

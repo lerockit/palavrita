@@ -3,13 +3,13 @@ import {
   Guess,
   Guesses,
 } from '../../contexts/global/interface'
+import { AllowedWord } from '../../database/interface'
 
 export interface UseGameStatusStorageHook {
   addGuess: (guess: Guess) => void
   finishGame: (gameFinishStatus: GameFinishStatus) => void
-  refreshGame: (newDate: string) => void
-  getGuesses: () => Guesses
-  getLastDate: () => string
+  refreshGame: () => void
+  getPayload: () => GameStatusStorage
 }
 
 export interface GameStatusStorage {
@@ -23,4 +23,5 @@ export interface GameStatusStorage {
   winAmount: number
   lossAmount: number
   lastDate: string
+  dailyWord: AllowedWord
 }

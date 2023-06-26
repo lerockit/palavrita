@@ -10,3 +10,7 @@ export const ACTIONS_KEY_MAPPER: ActionsKeyMapper = {
   ENTER: 'CONFIRM',
   BACKSPACE: 'DELETE',
 }
+
+export const INSTAGRAM_LINK = 'http://instagram.com/lerockit'
+
+export const GITHUB_PALAVRITA_LINK = 'http://github.com/lerockit/palavrita'

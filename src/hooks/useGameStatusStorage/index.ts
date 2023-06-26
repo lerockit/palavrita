@@ -1,24 +1,29 @@
 import { GUESSES_AMOUNT } from '../../constants'
 import { GameFinishStatus, Guess } from '../../contexts/global/interface'
+import { getDailyWordFromDatabase } from '../../database'
+import { useDate } from '../useDate'
 import { useStorage } from '../useStorage'
 import { GameStatusStorage, UseGameStatusStorageHook } from './interface'
 
+const { getToday } = useDate()
+const today = getToday()
+const defaultStatistics: number[] = Array(GUESSES_AMOUNT).fill(0)
+
+const defaultGameStatusStorage: GameStatusStorage = {
+  bestStreak: 0,
+  guesses: [],
+  statistics: defaultStatistics,
+  totalGamesAmount: 0,
+  winPercentage: 0,
+  winStreak: 0,
+  gameFinishStatus: null,
+  winAmount: 0,
+  lossAmount: 0,
+  lastDate: today,
+  dailyWord: getDailyWordFromDatabase(today),
+}
+
 export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
-  const defaultStatistics: number[] = Array(GUESSES_AMOUNT).fill(0)
-
-  const defaultGameStatusStorage: GameStatusStorage = {
-    bestStreak: 0,
-    guesses: [],
-    statistics: defaultStatistics,
-    totalGamesAmount: 0,
-    winPercentage: 0,
-    winStreak: 0,
-    gameFinishStatus: null,
-    winAmount: 0,
-    lossAmount: 0,
-    lastDate: '',
-  }
-
   const { getStorage, setStorage } = useStorage<GameStatusStorage>(
     'palavrita-game-status',
     defaultGameStatusStorage
@@ -31,7 +36,6 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
 
   const finishGame = (gameFinishStatus: GameFinishStatus) => {
     const hasWon = gameFinishStatus === 'WON'
-
     const {
       totalGamesAmount,
       statistics,
@@ -41,6 +45,7 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
       winAmount,
       lossAmount,
       lastDate,
+      dailyWord,
     } = getStorage()
 
     const guessAmountIndex = guesses.length - 1
@@ -69,28 +74,27 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
       gameFinishStatus,
       guesses,
       lastDate,
+      dailyWord,
     })
   }
 
-  const refreshGame = (newDate: string) => {
+  const refreshGame = () => {
     const storage = getStorage()
     setStorage({
       ...storage,
       guesses: [],
       gameFinishStatus: null,
-      lastDate: newDate,
+      lastDate: today,
+      dailyWord: getDailyWordFromDatabase(today),
     })
   }
 
-  const getGuesses = () => getStorage().guesses
-
-  const getLastDate = () => getStorage().lastDate
+  const getPayload = () => getStorage()
 
   return {
     addGuess,
     finishGame,
     refreshGame,
-    getGuesses,
-    getLastDate,
+    getPayload,
   }
 }

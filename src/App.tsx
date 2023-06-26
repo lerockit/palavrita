@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react'
-import Guesses from './components/guesses'
+import React, { useContext, useEffect } from 'react'
 import Header from './components/header'
-import Keyboard from './components/keyboard'
+import Router from './components/router'
+import { GlobalContext } from './contexts/global'
 import { useDate } from './hooks/useDate'
 import { useGameStatusStorage } from './hooks/useGameStatusStorage'
 
 const App: React.FC = () => {
-  const { getToday, isSameDate } = useDate()
-  const { getLastDate, refreshGame } = useGameStatusStorage()
+  const { isSameDate } = useDate()
+  const { getPayload, refreshGame } = useGameStatusStorage()
+  const { setCurrentPage } = useContext(GlobalContext)
 
   useEffect(() => {
-    const today = getToday()
-    const lastDate = getLastDate()
-
-    if (isSameDate(lastDate)) return
-    refreshGame(today)
+    const { lastDate, gameFinishStatus } = getPayload()
+    if (!isSameDate(lastDate)) refreshGame()
+    if (gameFinishStatus) setCurrentPage('STATISTICS')
   }, [])
 
   return (
     <div className="bg-gradient-to-br from-pink-400 via-purple-500 to-fuchsia-600 relative">
       <div className="w-full h-[2px] bg-slate-50 absolute" />
-      <div className="max-w-md text-slate-50 flex flex-col justify-between h-full mx-auto min-h-screen">
+      <div className="min-h-screen flex flex-col max-w-md mx-auto">
         <Header />
-        <Guesses />
-        <Keyboard />
+        <div className="container text-slate-50 flex flex-col justify-between grow items-center">
+          <Router />
+        </div>
       </div>
     </div>
   )

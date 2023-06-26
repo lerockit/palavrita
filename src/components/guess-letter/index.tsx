@@ -22,7 +22,7 @@ const GuessLetter: React.FC<GuessLetterProps> = ({
   const getBorderClasses = () => {
     const defaultBorderclass = 'border-slate-50 border-2'
     if (!isCurrent || !!gameFinishStatus) return defaultBorderclass
-    if (hasError) return 'border-red-500 border-2'
+    if (hasError) return 'border-pink-600 border-2'
     if (isSelected) return `${defaultBorderclass} border-[3px] border-b-[6px]`
     return defaultBorderclass
   }

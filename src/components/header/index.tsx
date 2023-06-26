@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { GITHUB_PALAVRITA_LINK } from '../../constants'
+import { GlobalContext } from '../../contexts/global'
 import IconBox from '../icon-box'
 import AboutIcon from '../icons/about'
 import GithubIcon from '../icons/github'
@@ -7,25 +9,29 @@ import StatsIcon from '../icons/stats'
 import Logo from './logo'
 
 const Header: React.FC = () => {
+  const { setCurrentPage } = useContext(GlobalContext)
+
   return (
     <>
       <header className="container px-8 py-7 flex justify-between items-start">
         <div className="flex gap-4">
-          <button>
+          <button onClick={() => setCurrentPage('HELP')}>
             <IconBox iconElement={QuestionMarkIcon} />
           </button>
-          <button>
+          <a href={GITHUB_PALAVRITA_LINK} target="_blank" rel="noreferrer">
             <IconBox iconElement={GithubIcon} />
-          </button>
+          </a>
         </div>
         <div className="w-40">
-          <Logo />
+          <button onClick={() => setCurrentPage('HOME')}>
+            <Logo />
+          </button>
         </div>
         <div className="flex gap-4">
-          <button>
+          <button onClick={() => setCurrentPage('STATISTICS')}>
             <IconBox iconElement={StatsIcon} />
           </button>
-          <button>
+          <button onClick={() => setCurrentPage('ABOUT')}>
             <IconBox iconElement={AboutIcon} />
           </button>
         </div>

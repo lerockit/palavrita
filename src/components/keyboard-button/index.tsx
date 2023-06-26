@@ -12,27 +12,33 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
 }) => {
   const { getPreviousLetters } = useContext(GlobalContext)
 
-  const haveStatus = (status: LetterStatus) => {
+  const getStatus = (): LetterStatus | void => {
     const previousLetters = getPreviousLetters()
-    const lettersFiltered = previousLetters.filter(
-      (previousLetter) => previousLetter.status === status
-    )
-
-    return !!lettersFiltered.find(({ id }) => id === letterId)
+    const lettersFiltered = previousLetters.filter(({ id }) => id === letterId)
+    if (lettersFiltered.find(({ status }) => status === 'CORRECT'))
+      return 'CORRECT'
+    if (lettersFiltered.find(({ status }) => status === 'DISPLACED'))
+      return 'DISPLACED'
+    if (lettersFiltered.find(({ status }) => status === 'INCORRECT'))
+      return 'INCORRECT'
   }
 
-  const isIncorrect = haveStatus('INCORRECT')
-  const isDisplaced = haveStatus('DISPLACED')
-  const isCorrect = haveStatus('CORRECT')
+  const status = getStatus()
+
+  const isIncorrect = status === 'INCORRECT'
+  const isDisplaced = status === 'DISPLACED'
+  const isCorrect = status === 'CORRECT'
 
   const opacityClasses = isIncorrect ? 'opacity-50' : ''
   const shadowClasses = isIncorrect ? '' : 'shadow'
+
   const getBorderClasses = () => {
     if (isIncorrect) return ''
     if (isCorrect) return 'border-emerald-300 border-2'
     if (isDisplaced) return 'border-amber-300 border-2'
     return 'border-slate-50 border-2'
   }
+
   const getBackgroundClasses = () => {
     if (isCorrect) return 'bg-emerald-500'
     if (isDisplaced) return 'bg-amber-500'

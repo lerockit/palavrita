@@ -13,7 +13,7 @@ export interface UseGameStatusStorageHook {
 }
 
 export interface GameStatusStorage {
-  statistics: number[]
+  guessStatistics: number[]
   guesses: Guesses
   totalGamesAmount: number
   winPercentage: number

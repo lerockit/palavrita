@@ -83,7 +83,7 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const lettersWithStatus = letters.map<Letter>((letter, index) => {
       if (dailyWordLettersToCompare.includes(letter.id)) {
         const indexToRemove = dailyWordLettersToCompare.indexOf(letter.id)
-        dailyWordLettersToCompare.splice(indexToRemove, indexToRemove)
+        delete dailyWordLettersToCompare[indexToRemove]
 
         return dailyWordLetters[index] === letter.id
           ? {

@@ -47,7 +47,7 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
   return (
     <button
       className={`
-        h-10 w-[10%] min-w-[1.75rem] flex justify-center items-center rounded-sm font-medium text-lg
+        h-12 w-[10%] min-w-[1.75rem] flex justify-center items-center rounded-sm font-medium text-lg
         ${classes}
         ${opacityClasses}
         ${shadowClasses}

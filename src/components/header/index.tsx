@@ -13,7 +13,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="container px-8 py-7 flex justify-between items-start">
+      <header className="container px-8 py-7 flex justify-between items-start max-w-md">
         <div className="flex gap-4">
           <button onClick={() => setCurrentPage('HELP')}>
             <IconBox iconElement={QuestionMarkIcon} />

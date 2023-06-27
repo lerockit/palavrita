@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
         onClick={() => setCurrentPage('HOME')}
       >
         <IconBox iconElement={ArrowLeft} size="sm" />
-        Voltar
+        <span className="drop-shadow">Voltar</span>
       </button>
       <div className="flex flex-col gap-1 text-center">
         <span className="text-sm drop-shadow font-light">

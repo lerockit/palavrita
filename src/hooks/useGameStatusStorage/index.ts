@@ -7,12 +7,12 @@ import { GameStatusStorage, UseGameStatusStorageHook } from './interface'
 
 const { getToday } = useDate()
 const today = getToday()
-const defaultStatistics: number[] = Array(GUESSES_AMOUNT).fill(0)
+const defaultGuessStatistics: number[] = Array(GUESSES_AMOUNT).fill(0)
 
 const defaultGameStatusStorage: GameStatusStorage = {
   bestStreak: 0,
   guesses: [],
-  statistics: defaultStatistics,
+  guessStatistics: defaultGuessStatistics,
   totalGamesAmount: 0,
   winPercentage: 0,
   winStreak: 0,
@@ -38,7 +38,7 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
     const hasWon = gameFinishStatus === 'WON'
     const {
       totalGamesAmount,
-      statistics,
+      guessStatistics,
       winStreak,
       bestStreak,
       guesses,
@@ -57,17 +57,17 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
     const newLossAmount = hasWon ? lossAmount : lossAmount + 1
     const newWinPercentage =
       +(newWinAmount / newTotalGameAmount).toFixed(2) * 100
-    const newStatistics = hasWon
-      ? statistics.map((statistic, index) =>
+    const newGuessStatistics = hasWon
+      ? guessStatistics.map((statistic, index) =>
           index === guessAmountIndex ? statistic + 1 : statistic
         )
-      : statistics
+      : guessStatistics
 
     setStorage({
       totalGamesAmount: newTotalGameAmount,
       winPercentage: newWinPercentage,
       bestStreak: newBestStreak,
-      statistics: newStatistics,
+      guessStatistics: newGuessStatistics,
       winStreak: newWinStreak,
       winAmount: newWinAmount,
       lossAmount: newLossAmount,
@@ -89,12 +89,10 @@ export const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
     })
   }
 
-  const getPayload = () => getStorage()
-
   return {
     addGuess,
     finishGame,
     refreshGame,
-    getPayload,
+    getPayload: getStorage,
   }
 }

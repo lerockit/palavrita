@@ -43,40 +43,51 @@ const Help: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-8">
+    <div className="w-full px-8" data-testid="help-page">
       <Title>Como jogar?</Title>
-      <ul className="flex flex-col gap-4 w-full max-w pt-8 list-disc drop-shadow font-light text-base tracking-wide pb-4">
+      <ul className="flex flex-col gap-4 w-full pt-8 list-disc drop-shadow font-light tracking-wide pb-4">
         <li>
-          O jogo consiste em você acertar uma palavra (por dia) de{' '}
-          <span className="font-medium">5 letras</span> com no máximo{' '}
-          <span className="font-medium">6 tentativas.</span>
+          <p>
+            O jogo consiste em você acertar uma palavra (por dia) de{' '}
+            <span className="font-medium">5 letras</span> com no máximo{' '}
+            <span className="font-medium">6 tentativas.</span>
+          </p>
         </li>
         <li>
-          Os palpites devem ser palavras{' '}
-          <span className="font-medium">existentes</span> e todos os acentos e
-          cedilhas serão <span className="font-medium">desconsiderados.</span>
+          <p>
+            Os palpites devem ser palavras{' '}
+            <span className="font-medium">existentes</span> e todos os acentos e
+            cedilhas serão <span className="font-medium">desconsiderados.</span>
+          </p>
         </li>
         <li className="pb-6">
-          Se a letra for destacada da cor{' '}
-          <span className="font-medium text-amber-300">amarela</span> ela está
-          na palavra mas na{' '}
-          <span className="font-medium text-amber-300">posição errada</span>:
+          <p>
+            Se a letra for destacada da cor{' '}
+            <span className="font-medium text-amber-300">amarela</span> ela está
+            na palavra mas na{' '}
+            <span className="font-medium text-amber-300">posição errada</span>:
+          </p>
           <div className="pt-6">
             <Guess guess={fakeGuesses.DISPLACED} />
           </div>
         </li>
         <li className="pb-6">
-          Se a letra for destacada da cor{' '}
-          <span className="font-medium text-emerald-300">verde</span> ela está
-          na palavra e na{' '}
-          <span className="font-medium text-emerald-300">posição certa</span>:
+          <p>
+            Se a letra for destacada da cor{' '}
+            <span className="font-medium text-emerald-300">verde</span> ela está
+            na palavra e na{' '}
+            <span className="font-medium text-emerald-300">posição certa</span>:
+          </p>
           <div className="pt-6">
             <Guess guess={fakeGuesses.CORRECT} />
           </div>
         </li>
         <li className="pb-6">
-          Se a letra <span className="font-medium">não for destacada</span> ela{' '}
-          <span className="font-medium">não está</span> presenta na palavra:
+          <p>
+            Se a letra <span className="font-medium">não for destacada</span>{' '}
+            ela <span className="font-medium">não está</span> presenta na
+            palavra:
+          </p>
           <div className="pt-6">
             <Guess guess={fakeGuesses.INCORRECT} />
           </div>

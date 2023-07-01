@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Header from './components/header'
 import Router from './components/router'
+import { GlobalContext } from './contexts/global'
 import { useDate } from './hooks/useDate'
 import { useGameStatusStorage } from './hooks/useGameStatusStorage'
 
 const App: React.FC = () => {
   const { isSameDate } = useDate()
   const { getPayload, refreshGame } = useGameStatusStorage()
+  const { setCurrentPage } = useContext(GlobalContext)
 
   useEffect(() => {
-    const { lastDate } = getPayload()
-    if (!isSameDate(lastDate)) refreshGame()
+    const { lastDate, gameFinishStatus } = getPayload()
+    if (!isSameDate(lastDate)) return refreshGame()
+    if (gameFinishStatus) setCurrentPage('STATISTICS')
   }, [])
 
   return (

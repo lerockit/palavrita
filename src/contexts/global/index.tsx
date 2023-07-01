@@ -80,24 +80,28 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const setLettersStatus: (letter: Letter[]) => Letter[] = (letters) => {
     const dailyWordLettersToCompare = [...dailyWordLetters]
 
-    const lettersWithStatus = letters.map<Letter>((letter, index) => {
+    const correctLetters = letters.map<Letter>((letter, index) => {
+      if (dailyWordLettersToCompare[index] === letter.id) {
+        delete dailyWordLettersToCompare[index]
+        return { ...letter, status: 'CORRECT' }
+      }
+
+      return letter
+    })
+
+    const lettersWithStatus = correctLetters.map<Letter>((letter) => {
+      if (letter.status === 'CORRECT') return letter
       if (dailyWordLettersToCompare.includes(letter.id)) {
         const indexToRemove = dailyWordLettersToCompare.indexOf(letter.id)
         delete dailyWordLettersToCompare[indexToRemove]
-
-        return dailyWordLetters[index] === letter.id
-          ? {
-              ...letter,
-              status: 'CORRECT',
-            }
-          : {
-              ...letter,
-              status: 'DISPLACED',
-            }
+        return {
+          ...letter,
+          status: 'DISPLACED',
+        }
       }
 
       return {
-        id: letter.id,
+        ...letter,
         status: 'INCORRECT',
       }
     })

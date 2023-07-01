@@ -4,7 +4,10 @@ import GuessLetter from '../guess-letter'
 import { GuessProps } from './interface'
 
 const GuessContainer: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="font-bold text-2xl flex justify-between w-full">
+  <div
+    className="font-bold text-2xl flex justify-between w-full"
+    data-testid="guess-container"
+  >
     {children}
   </div>
 )

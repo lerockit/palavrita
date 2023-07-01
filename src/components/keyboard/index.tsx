@@ -98,7 +98,10 @@ const Keyboard: React.FC = () => {
   }, [currentGuess])
 
   return (
-    <div className="w-full px-2 flex flex-col gap-4 pb-6">
+    <div
+      className="w-full px-2 flex flex-col gap-4 pb-6"
+      data-testid="keyboard"
+    >
       {lettersIdsGroups.map((lettersIds, keyboardRow) => (
         <div className="flex gap-2" key={keyboardRow}>
           {lettersIds.map((letterId) => (

@@ -18,6 +18,7 @@ const GuessStatistic: React.FC<GuessStatisticProps> = ({
       <div
         className="bg-slate-50 rounded-sm shadow h-3"
         style={{ width: `calc(${getWidth()} + 1rem)` }}
+        data-testid="guess-statistic-bar"
       />
       <span className="pl-2 font-light text-xs">{guessAmount}</span>
     </div>

@@ -11,6 +11,11 @@ export const ACTIONS_KEY_MAPPER: ActionsKeyMapper = {
   BACKSPACE: 'DELETE',
 }
 
-export const INSTAGRAM_LINK = 'http://instagram.com/lerockit'
-
-export const GITHUB_PALAVRITA_LINK = 'http://github.com/lerockit/palavrita'
+export const LINKS = {
+  INSTAGRAM: 'http://instagram.com/lerockit',
+  GITHUB_PALAVRITA: 'http://github.com/lerockit/palavrita',
+  WORDLE: 'https://www.nytimes.com/games/wordle/index.html',
+  LETRECO: 'https://www.gabtoschi.com/letreco/',
+  TERMO: 'https://term.ooo/',
+  CHARADA: 'https://charada.vercel.app/',
+}

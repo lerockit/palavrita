@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { GITHUB_PALAVRITA_LINK, INSTAGRAM_LINK } from '../../constants'
+import { LINKS } from '../../constants'
 import { GlobalContext } from '../../contexts/global'
 import IconBox from '../icon-box'
 import ArrowLeft from '../icons/arrow-left'
@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
         <span className="text-sm drop-shadow font-light">
           Este jogo foi desenvolvido por{' '}
           <a
-            href={INSTAGRAM_LINK}
+            href={LINKS.INSTAGRAM}
             className="underline font-normal"
             target="_blank"
             rel="noreferrer"
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
         <span className="text-sm drop-shadow font-light">
           Veja novidades futuras do jogo{' '}
           <a
-            href={GITHUB_PALAVRITA_LINK}
+            href={LINKS.GITHUB_PALAVRITA}
             className="underline font-normal"
             target="_blank"
             rel="noreferrer"

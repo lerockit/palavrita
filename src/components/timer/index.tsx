@@ -44,13 +44,9 @@ const Timer: React.FC = () => {
 
   return (
     <div className="flex flex-col gap text-center">
-      {hours && minutes && seconds ? (
-        <span className="font-medium text-3xl drop-shadow">
-          {hours}:{minutes}:{seconds}
-        </span>
-      ) : (
-        <> - </>
-      )}
+      <span className="font-medium text-3xl drop-shadow">
+        {hours}:{minutes}:{seconds}
+      </span>
       <div className="font-light text-xs drop-shadow">
         para a próxima palavra
       </div>

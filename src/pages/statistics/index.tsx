@@ -72,7 +72,10 @@ const Statistics: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full">
+      <div
+        className="flex flex-col items-center w-full"
+        data-testid="statistics-page"
+      >
         {gameFinishStatus ? (
           <div className="flex flex-col gap-6 items-center">
             <StatusTitle />

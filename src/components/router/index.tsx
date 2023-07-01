@@ -1,7 +1,6 @@
-import React, { ReactNode, useContext, useEffect } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { GlobalContext } from '../../contexts/global'
 import { Page } from '../../contexts/global/interface'
-import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
 import About from '../../pages/about'
 import Help from '../../pages/help'
 import Home from '../../pages/home'
@@ -15,13 +14,6 @@ const routes: Record<Page, ReactNode> = {
 }
 
 const Router: React.FC = () => {
-  const { setCurrentPage } = useContext(GlobalContext)
-  const { gameFinishStatus } = useGameStatusStorage().getPayload()
-
-  useEffect(() => {
-    if (gameFinishStatus) setCurrentPage('STATISTICS')
-  }, [])
-
   const { currentPage } = useContext(GlobalContext)
 
   return <>{routes[currentPage]}</>

@@ -12,6 +12,8 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
 }) => {
   const { getPreviousLetters } = useContext(GlobalContext)
 
+  //TODO: MELHORAR ESSAS LÓGICAS E DEIXAR MAIS LIMPO ESTE COMPONENT
+
   const getStatus = (): LetterStatus | void => {
     const previousLetters = getPreviousLetters()
     const lettersFiltered = previousLetters.filter(({ id }) => id === letterId)

@@ -35,6 +35,7 @@ const GuessLetter: React.FC<GuessLetterProps> = ({
         ${getCorrectClasses()}
         ${getBorderClasses()}
       `}
+      data-testid="guess-letter"
     >
       {children}
     </div>

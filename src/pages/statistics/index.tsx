@@ -1,35 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Footer from '../../components/footer'
-import Guess from '../../components/guess'
 import GuessStatistic from '../../components/guess-statistic'
-import { AllowedLetterId } from '../../components/keyboard/interfaces'
-import Timer from '../../components/timer'
-import Title from '../../components/title'
-import { GlobalContext } from '../../contexts/global'
-import { Guess as GuessType, Letter } from '../../contexts/global/interface'
+import RouteContainer from '../../components/route-container'
+import StatisticsTitle from '../../components/statistics-title'
 import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
-
-const wonTitle = (
-  <Title>
-    <div className="flex flex-col gap">
-      <span>Parabéns</span>
-      <span>
-        Você <span className="text-emerald-300">Ganhou!</span>
-      </span>
-    </div>
-  </Title>
-)
-
-const lostTitle = (
-  <Title>
-    <div className="flex flex-col gap">
-      <span>
-        Que <span className="text-amber-300">pena</span>
-      </span>
-      <span>Fica pra próxima</span>
-    </div>
-  </Title>
-)
 
 const StatisticContainer: React.FC<{
   statistic: string
@@ -45,7 +19,6 @@ const StatisticContainer: React.FC<{
 
 const Statistics: React.FC = () => {
   const {
-    dailyWord,
     totalGamesAmount,
     winPercentage,
     winStreak,
@@ -53,40 +26,13 @@ const Statistics: React.FC = () => {
     guessStatistics,
     lossAmount,
   } = useGameStatusStorage().getPayload()
-  const { gameFinishStatus } = useContext(GlobalContext)
-  const hasWon = gameFinishStatus === 'WON'
-
-  const dailyWordLetters = (
-    dailyWord.split('') as AllowedLetterId[]
-  ).map<Letter>((dailyWordLetter: AllowedLetterId) => ({
-    id: dailyWordLetter,
-    status: hasWon ? 'CORRECT' : 'INCORRECT',
-  }))
-
-  const dailyWordGuess: GuessType = {
-    word: dailyWord,
-    letters: dailyWordLetters,
-  }
-
-  const StatusTitle = () => (hasWon ? wonTitle : lostTitle)
-
   return (
-    <>
+    <RouteContainer key="STATISTICS">
+      <StatisticsTitle />
       <div
         className="flex flex-col items-center w-full"
         data-testid="statistics-page"
       >
-        {gameFinishStatus ? (
-          <div className="flex flex-col gap-6 items-center">
-            <StatusTitle />
-            <div className="w-72">
-              <Guess guess={dailyWordGuess} />
-            </div>
-            <Timer />
-          </div>
-        ) : (
-          <Title>Estatísticas</Title>
-        )}
         <div className="py-8 flex drop-shadow">
           <StatisticContainer
             statistic={String(totalGamesAmount)}
@@ -125,7 +71,7 @@ const Statistics: React.FC = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </RouteContainer>
   )
 }
 

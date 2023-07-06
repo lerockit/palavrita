@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { LINKS } from '../../constants'
-import { GlobalContext } from '../../contexts/global'
+import { RouterContext } from '../../contexts/router'
 import IconBox from '../icon-box'
 import AboutIcon from '../icons/about'
 import GithubIcon from '../icons/github'
@@ -9,14 +9,14 @@ import StatsIcon from '../icons/stats'
 import Logo from '../logo'
 
 const Header: React.FC = () => {
-  const { setCurrentPage } = useContext(GlobalContext)
+  const { setCurrentRoute } = useContext(RouterContext)
 
   return (
     <>
       <header className="container px-8 py-7 flex justify-between items-start max-w-md">
         <div className="flex gap-4">
           <button
-            onClick={() => setCurrentPage('HELP')}
+            onClick={() => setCurrentRoute('HELP')}
             data-testid="help-page-button"
           >
             <IconBox iconElement={QuestionMarkIcon} />
@@ -26,19 +26,19 @@ const Header: React.FC = () => {
           </a>
         </div>
         <div className="w-40">
-          <button onClick={() => setCurrentPage('HOME')} data-testid="logo">
+          <button onClick={() => setCurrentRoute('HOME')}>
             <Logo />
           </button>
         </div>
         <div className="flex gap-4">
           <button
-            onClick={() => setCurrentPage('STATISTICS')}
+            onClick={() => setCurrentRoute('STATISTICS')}
             data-testid="statistics-page-button"
           >
             <IconBox iconElement={StatsIcon} />
           </button>
           <button
-            onClick={() => setCurrentPage('ABOUT')}
+            onClick={() => setCurrentRoute('ABOUT')}
             data-testid="about-page-button"
           >
             <IconBox iconElement={AboutIcon} />

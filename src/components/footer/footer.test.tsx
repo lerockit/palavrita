@@ -1,16 +1,15 @@
-import { vi } from 'vitest'
 import Footer from '.'
-import { renderWithGlobalContext } from '../../test/setup'
+import { renderWithRouterContext } from '../../test/utils'
 
 describe('<Footer />', () => {
   it('Should call setCurrentPage with correct params when click on home button', () => {
-    const setCurrentPage = vi.fn()
-    const { getByRole } = renderWithGlobalContext(<Footer />, {
-      setCurrentPage,
+    const setCurrentRoute = jest.fn()
+    const { getByRole } = renderWithRouterContext(<Footer />, {
+      setCurrentRoute,
     })
     const buttonElement = getByRole('button')
     buttonElement.click()
-    expect(setCurrentPage).toHaveBeenCalledTimes(1)
-    expect(setCurrentPage).toHaveBeenCalledWith('HOME')
+    expect(setCurrentRoute).toHaveBeenCalledTimes(1)
+    expect(setCurrentRoute).toHaveBeenCalledWith('HOME')
   })
 })

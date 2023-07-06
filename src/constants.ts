@@ -19,3 +19,7 @@ export const LINKS = {
   TERMO: 'https://term.ooo/',
   CHARADA: 'https://charada.vercel.app/',
 }
+
+export const GUESS_ANIMATION_DURATION_IN_SECONDS = 0.5
+export const GUESS_ANIMATION_DURATION_IN_MILISECONDS =
+  GUESS_ANIMATION_DURATION_IN_SECONDS * 1000

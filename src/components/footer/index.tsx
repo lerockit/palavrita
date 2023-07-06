@@ -1,17 +1,17 @@
 import { useContext } from 'react'
 import { LINKS } from '../../constants'
-import { GlobalContext } from '../../contexts/global'
+import { RouterContext } from '../../contexts/router'
 import IconBox from '../icon-box'
 import ArrowLeft from '../icons/arrow-left'
 
 const Footer: React.FC = () => {
-  const { setCurrentPage } = useContext(GlobalContext)
+  const { setCurrentRoute } = useContext(RouterContext)
 
   return (
     <div className="pb-8 flex flex-col items-center gap-6">
       <button
         className="drop-shadow rounded-sm px-4 py-2 border-2 border-slate-50 flex gap-4 font-medium items-center uppercase bg-purple-400"
-        onClick={() => setCurrentPage('HOME')}
+        onClick={() => setCurrentRoute('HOME')}
       >
         <IconBox iconElement={ArrowLeft} size="sm" />
         <span className="drop-shadow">Voltar</span>

@@ -8,7 +8,6 @@ import {
   Guess,
   Guesses,
   Letter,
-  Page,
 } from './interface'
 
 export const globalContextDefault: GlobalContextInterface = {
@@ -22,8 +21,6 @@ export const globalContextDefault: GlobalContextInterface = {
   gameFinishStatus: null,
   setGameFinishStatus: null as any,
   refreshGame: null as any,
-  currentPage: 'HOME',
-  setCurrentPage: null as any,
 }
 
 export const GlobalContext =
@@ -47,8 +44,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [gameFinishStatus, setGameFinishStatus] = useState<GameFinishStatus>(
     gameStatusStoragePayload.gameFinishStatus
   )
-
-  const [currentPage, setCurrentPage] = useState<Page>('HOME')
 
   const getWordByLetters = (letters: Letter[]) =>
     letters.reduce(
@@ -138,7 +133,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const finishGame = (gameFinishStatus: GameFinishStatus) => {
     setGameFinishStatus(gameFinishStatus)
     gameStatusStorage.finishGame(gameFinishStatus)
-    setCurrentPage('STATISTICS')
   }
 
   const confirmCurrentGuess = () => {
@@ -168,8 +162,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         gameFinishStatus,
         setGameFinishStatus,
         refreshGame,
-        currentPage,
-        setCurrentPage,
       }}
     >
       {children}

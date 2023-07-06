@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import React, { useContext } from 'react'
 import { GlobalContext } from '../../contexts/global'
 import { LetterStatus } from '../../contexts/global/interface'
@@ -46,8 +47,15 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
     if (isDisplaced) return 'bg-amber-500'
   }
 
+  const keyboardButtonVariants = {
+    tapped: {
+      scale: 1.1,
+    },
+    notTapped: {},
+  }
+
   return (
-    <button
+    <motion.button
       className={`
         h-12 w-[10%] min-w-[1.75rem] flex justify-center items-center rounded-sm font-medium text-lg
         ${classes}
@@ -57,10 +65,12 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
         ${getBackgroundClasses()}
       `}
       onClick={handleClick}
+      variants={keyboardButtonVariants}
+      whileTap={!isIncorrect ? 'tapped' : 'notTapped'}
       {...buttonProps}
     >
       <span className="drop-shadow">{letterId || children}</span>
-    </button>
+    </motion.button>
   )
 }
 

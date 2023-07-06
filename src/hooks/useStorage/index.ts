@@ -1,12 +1,9 @@
 import { AllowedStorageKeys, UseStorageHook } from './interface'
 
-export const useStorage = <T>(
-  key: AllowedStorageKeys,
-  defaultPayload: T
-): UseStorageHook<T> => {
+const useStorage = <T>(key: AllowedStorageKeys): UseStorageHook<T> => {
   const { localStorage } = window
 
-  const getStorage = (): T => {
+  const getStorage = (): T | null => {
     const payloadJSON = localStorage.getItem(key)
     return JSON.parse(payloadJSON as string)
   }
@@ -16,10 +13,10 @@ export const useStorage = <T>(
     localStorage.setItem(key, payloadJSON)
   }
 
-  if (!getStorage()) setStorage(defaultPayload)
-
   return {
     getStorage,
     setStorage,
   }
 }
+
+export default useStorage

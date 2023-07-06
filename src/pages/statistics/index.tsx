@@ -3,7 +3,7 @@ import Footer from '../../components/footer'
 import GuessStatistic from '../../components/guess-statistic'
 import RouteContainer from '../../components/route-container'
 import StatisticsTitle from '../../components/statistics-title'
-import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
+import useGameStatusStorage from '../../hooks/useGameStatusStorage'
 
 const StatisticContainer: React.FC<{
   statistic: string
@@ -27,7 +27,7 @@ const Statistics: React.FC = () => {
     lossAmount,
   } = useGameStatusStorage().getPayload()
   return (
-    <RouteContainer key="STATISTICS">
+    <RouteContainer routeKey="STATISTICS">
       <StatisticsTitle />
       <div
         className="flex flex-col items-center w-full"

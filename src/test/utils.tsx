@@ -1,4 +1,9 @@
-import { RenderOptions, RenderResult, render } from '@testing-library/react'
+import {
+  RenderOptions,
+  RenderResult,
+  act,
+  render,
+} from '@testing-library/react'
 import { ReactElement } from 'react'
 import { GlobalContext, globalContextDefault } from '../contexts/global'
 import { GlobalContextInterface } from '../contexts/global/interface'
@@ -29,4 +34,33 @@ export const renderWithRouterContext: (
     </RouterContext.Provider>,
     renderOptions
   )
+}
+
+export const asyncTimeout = async (timeout: number) =>
+  await new Promise((r) => setTimeout(r, timeout))
+
+export const waitForAnimation = async (
+  callBack: () => void,
+  animationDuration: number
+) =>
+  await act(async () => {
+    await asyncTimeout(animationDuration + 100)
+    callBack()
+  })
+
+export const mockLocalStorage = () => {
+  const setItemMock = jest.fn()
+  const getItemMock = jest.fn()
+
+  beforeEach(() => {
+    Storage.prototype.setItem = setItemMock
+    Storage.prototype.getItem = getItemMock
+  })
+
+  afterEach(() => {
+    setItemMock.mockRestore()
+    getItemMock.mockRestore()
+  })
+
+  return { setItemMock, getItemMock }
 }

@@ -7,9 +7,8 @@ import React, {
   useState,
 } from 'react'
 import PageTemplate from '../../components/page-template'
-import { GUESS_ANIMATION_DURATION_IN_MILISECONDS } from '../../constants'
-import { useDate } from '../../hooks/useDate'
-import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
+import useDate from '../../hooks/useDate'
+import useGameStatusStorage from '../../hooks/useGameStatusStorage'
 import About from '../../pages/about'
 import Help from '../../pages/help'
 import Home from '../../pages/home'
@@ -47,12 +46,7 @@ const RouterProvider: React.FC = () => {
   useEffect(() => {
     const { lastDate, gameFinishStatus } = getPayload()
     if (!isSameDate(lastDate)) return refreshGame()
-    if (gameFinishStatus) {
-      setTimeout(
-        () => setCurrentRoute('STATISTICS'),
-        GUESS_ANIMATION_DURATION_IN_MILISECONDS
-      )
-    }
+    if (gameFinishStatus) return setCurrentRoute('STATISTICS')
     setCurrentRoute('HOME')
   }, [])
 

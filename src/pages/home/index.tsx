@@ -5,7 +5,7 @@ import RouteContainer from '../../components/route-container'
 
 const Home: React.FC = () => {
   return (
-    <RouteContainer key="HOME">
+    <RouteContainer routeKey="HOME">
       <Guesses />
       <Keyboard />
     </RouteContainer>

@@ -15,20 +15,24 @@ const routeContainerVariants: Variants = {
     },
   },
   exit: {
+    opacity: 0,
     transition: {
       duration: 1,
     },
   },
 }
 
-const RouteContainer: React.FC<RouteContainerProps> = ({ children, key }) => (
+const RouteContainer: React.FC<RouteContainerProps> = ({
+  children,
+  routeKey,
+}) => (
   <motion.div
     className="flex flex-col items-center grow justify-between"
     initial="initial"
     animate="animate"
     exit="exit"
     variants={routeContainerVariants}
-    key={key}
+    key={routeKey}
   >
     {children}
   </motion.div>

@@ -1,43 +1,27 @@
-import { vi } from 'vitest'
-import { useStorage } from '.'
+import useStorage from '.'
+import { mockLocalStorage } from '../../test/utils'
 import { AllowedStorageKeys } from './interface'
 
 describe('useStorage', () => {
   const keyMock = 'KEY-MOCK' as AllowedStorageKeys
-  const defaultPayloadMock = {}
-  const getStorageItemMock = vi.fn()
-  const setStorageItemMock = vi.fn()
-  window.localStorage = {
-    ...window.localStorage,
-    getItem: getStorageItemMock,
-    setItem: setStorageItemMock,
-  }
+  const { getItemMock, setItemMock } = mockLocalStorage()
 
-  afterEach(() => vi.clearAllMocks())
-
-  it('Should call setItem form storage with default values if getItem returns null', () => {
-    getStorageItemMock.mockReturnValue(null)
-    useStorage(keyMock, defaultPayloadMock)
-    expect(setStorageItemMock).toHaveBeenCalledTimes(1)
-    expect(setStorageItemMock).toHaveBeenCalledWith(
-      keyMock,
-      JSON.stringify(defaultPayloadMock)
-    )
-  })
+  afterEach(() => jest.clearAllMocks())
 
   it('Should parse getItem returned value', () => {
-    const getStorageItemReturn = '{"mock": "true"}'
-    getStorageItemMock.mockReturnValue(getStorageItemReturn)
-    const { getStorage } = useStorage(keyMock, defaultPayloadMock)
-    expect(getStorage()).toStrictEqual(JSON.parse(getStorageItemReturn))
+    const getItemMockReturn = '{"mock": "true"}'
+    getItemMock.mockReturnValue(getItemMockReturn)
+    const { getStorage } = useStorage(keyMock)
+    expect(getStorage()).toStrictEqual(JSON.parse(getItemMockReturn))
   })
 
   it('Should stringify setItem payload', () => {
+    getItemMock.mockReturnValue('{"mock": "true"}')
     const setItemPayload = { mock: 'true' }
-    const { setStorage } = useStorage(keyMock, defaultPayloadMock)
+    const { setStorage } = useStorage(keyMock)
     setStorage(setItemPayload)
-    expect(setStorageItemMock).toHaveBeenCalledTimes(1)
-    expect(setStorageItemMock).toHaveBeenCalledWith(
+    expect(setItemMock).toHaveBeenCalledTimes(1)
+    expect(setItemMock).toHaveBeenCalledWith(
       keyMock,
       JSON.stringify(setItemPayload)
     )

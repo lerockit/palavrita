@@ -26,7 +26,7 @@ const Header: React.FC = () => {
           </a>
         </div>
         <div className="w-40">
-          <button onClick={() => setCurrentRoute('HOME')}>
+          <button onClick={() => setCurrentRoute('HOME')} data-testid="logo">
             <Logo />
           </button>
         </div>

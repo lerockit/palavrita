@@ -1,10 +1,9 @@
-import { vi } from 'vitest'
 import KeyboardButton from '.'
 import { GlobalContextInterface, Letter } from '../../contexts/global/interface'
-import { renderWithGlobalContext } from '../../test/setup'
+import { renderWithGlobalContext } from '../../test/utils'
 
 describe('<KeyboardButton />', () => {
-  const handleClickMock = vi.fn()
+  const handleClickMock = jest.fn()
   const fakeLetter: Letter = { id: 'A', status: null }
   const getPreviousLetters = (): Letter[] => [fakeLetter]
   const fakeContext: Partial<GlobalContextInterface> = { getPreviousLetters }

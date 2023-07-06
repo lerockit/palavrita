@@ -1,7 +1,7 @@
 export const hex2rgba = (hex: string, alpha = 1) => {
   const match = hex.match(/\w\w/g) ?? [0, 0, 0]
   const [r, g, b] = match.map((x) => parseInt(String(x), 16))
-  return `rgba(${r},${g},${b},${alpha})`
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
 export const hexToHSL = (hex: string) => {

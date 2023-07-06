@@ -1,93 +1,118 @@
 import GuessLetter from '.'
+import { GUESS_ANIMATION_DURATION_IN_MILISECONDS } from '../../constants'
 import { GlobalContextInterface } from '../../contexts/global/interface'
-import { renderWithGlobalContext } from '../../test/setup'
+import { renderWithGlobalContext, waitForAnimation } from '../../test/utils'
+import { hex2rgba } from '../../utils/hex-transform'
+import theme from '../../utils/tw-config'
 
 describe('<GuessLetter />', () => {
   const fakeContext: Partial<GlobalContextInterface> = {
     gameFinishStatus: null,
   }
 
-  it('Should render with right classes when letterStatus == CORRECT', () => {
+  it('Should render with correct styles when letterStatus is equal to CORRECT', async () => {
     const { getByTestId } = renderWithGlobalContext(
       <GuessLetter letterIndex={0} letterStatus="CORRECT" />,
       fakeContext
     )
 
     const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'bg-emerald-500'
+    const expectedStyle = {
+      backgroundColor: hex2rgba(theme.backgroundColor.emerald[500]),
+    }
 
-    expect(letterStatusElement).toHaveClass(expectedClases)
+    await waitForAnimation(() => {
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 
-  it('Should render with right classes when letterStatus == DISPLACED', () => {
+  it('Should render with correct styles when letterStatus is equal to DISPLACED', async () => {
     const { getByTestId } = renderWithGlobalContext(
       <GuessLetter letterIndex={0} letterStatus="DISPLACED" />,
       fakeContext
     )
 
     const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'bg-amber-500'
+    const expectedStyle = {
+      backgroundColor: hex2rgba(theme.backgroundColor.amber[500]),
+    }
 
-    expect(letterStatusElement).toHaveClass(expectedClases)
+    await waitForAnimation(() => {
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 
-  it('Should render with right border classes when isCurrent is true hasError is false and isSelected is false', () => {
+  it('Should render with correct styles when letterStatus is equal to INCORRECT', async () => {
+    const { getByTestId } = renderWithGlobalContext(
+      <GuessLetter letterIndex={0} letterStatus="INCORRECT" />,
+      fakeContext
+    )
+
+    const letterStatusElement = getByTestId('guess-letter')
+    const expectedStyle = {
+      backgroundColor: hex2rgba(theme.backgroundColor.pink[600]),
+    }
+
+    await waitForAnimation(() => {
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
+  })
+
+  it('Should render with correct border styles when currentGuess letters length is equal to letterIndex, isCurrent is true and gameFinishStatus is false', async () => {
     const { getByTestId } = renderWithGlobalContext(
       <GuessLetter letterIndex={2} isCurrent={true} />,
-      fakeContext
+      {
+        ...fakeContext,
+        currentGuess: {
+          letters: [
+            { id: 'A', status: null },
+            { id: 'B', status: null },
+          ],
+          word: 'AB',
+        },
+      }
     )
 
     const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'border-slate-50 border-2'
+    const expectedStyle = {
+      borderBottomWidth: '6px',
+    }
 
-    expect(letterStatusElement).toHaveClass(expectedClases)
+    await waitForAnimation(() => {
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 
-  it('Should render with right border classes when isCurrent is false', () => {
+  it('Should render with correct border styles when isCurrent is false', async () => {
     const { getByTestId } = renderWithGlobalContext(
       <GuessLetter letterIndex={0} isCurrent={false} />,
       fakeContext
     )
 
     const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'border-slate-50 border-2'
+    const expectedStyle = {
+      borderBottomWidth: theme.borderWidth[2],
+    }
 
-    expect(letterStatusElement).toHaveClass(expectedClases)
+    await waitForAnimation(() => {
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 
-  it('Should render with right border classes when gameFinishStatus is not null', () => {
+  it('Should render with correct border classes when hasError is true and isCurrent is true', async () => {
     const { getByTestId } = renderWithGlobalContext(
-      <GuessLetter letterIndex={0} isCurrent={false} />,
-      { ...fakeContext, gameFinishStatus: 'WON' }
-    )
-
-    const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'border-slate-50 border-2'
-
-    expect(letterStatusElement).toHaveClass(expectedClases)
-  })
-
-  it('Should render with right border classes when hasError is true and isCurrent is true', () => {
-    const { getByTestId } = renderWithGlobalContext(
-      <GuessLetter letterIndex={0} isCurrent={true} />,
+      <GuessLetter letterIndex={1} isCurrent={true} />,
       { ...fakeContext, hasError: true }
     )
 
     const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'border-pink-600 border-2'
+    const expectedStyle = {
+      borderColor: hex2rgba(theme.backgroundColor.pink[600]),
+    }
 
-    expect(letterStatusElement).toHaveClass(expectedClases)
-  })
-
-  it('Should render with right border classes when isSelected is true', () => {
-    const { getByTestId } = renderWithGlobalContext(
-      <GuessLetter letterIndex={0} isCurrent={true} />,
-      fakeContext
-    )
-
-    const letterStatusElement = getByTestId('guess-letter')
-    const expectedClases = 'border-[3px] border-b-[6px]'
-
-    expect(letterStatusElement).toHaveClass(expectedClases)
+    await waitForAnimation(() => {
+      console.log(letterStatusElement.style.borderColor)
+      expect(letterStatusElement).toHaveStyle(expectedStyle)
+    }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 })

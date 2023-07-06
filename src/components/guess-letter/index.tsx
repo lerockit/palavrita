@@ -1,7 +1,8 @@
-import { Transition, Variants, motion } from 'framer-motion'
+import { Variants, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 
 import {
+  GUESS_ANIMATION_DELAY,
   GUESS_ANIMATION_DURATION_IN_MILISECONDS,
   GUESS_ANIMATION_DURATION_IN_SECONDS,
 } from '../../constants'
@@ -32,10 +33,14 @@ const GuessLetter: React.FC<GuessLetterProps> = ({
     )
   }, [])
 
-  const guessVariantTrasition: Transition = {
-    delay: isFirstAnimationLoaded ? letterIndex * 0.2 : 0,
-    duration: GUESS_ANIMATION_DURATION_IN_SECONDS,
-    ease: 'easeInOut',
+  const getStatusVariant = (color: string) => {
+    return {
+      transition: {
+        delay: isFirstAnimationLoaded ? letterIndex * GUESS_ANIMATION_DELAY : 0,
+        duration: GUESS_ANIMATION_DURATION_IN_SECONDS,
+      },
+      backgroundColor: [hex2rgba(color, 0), hex2rgba(color)],
+    }
   }
 
   const guessLetterVariants: Variants = {
@@ -46,39 +51,25 @@ const GuessLetter: React.FC<GuessLetterProps> = ({
       },
     },
     default: {
-      borderBottomWidth: '2px',
+      borderBottomWidth: theme.borderWidth[2],
     },
     error: {
       borderColor: hex2rgba(theme.backgroundColor.pink[600]),
     },
-    correct: {
-      transition: guessVariantTrasition,
-      backgroundColor: hex2rgba(theme.backgroundColor.emerald[500]),
-    },
-    displaced: {
-      transition: guessVariantTrasition,
-      backgroundColor: hex2rgba(theme.backgroundColor.amber[500]),
-    },
-    incorrect: {
-      transition: guessVariantTrasition,
-      backgroundColor: hex2rgba(theme.backgroundColor.pink[600]),
-    },
+    CORRECT: getStatusVariant(theme.backgroundColor.emerald[500]),
+    DISPLACED: getStatusVariant(theme.backgroundColor.amber[500]),
+    INCORRECT: getStatusVariant(theme.backgroundColor.pink[600]),
   }
 
   const getAnimate = () => {
     if (isSelected) return 'selected'
     if (hasError && isCurrent) return 'error'
-    if (letterStatus === 'CORRECT') return 'correct'
-    if (letterStatus === 'DISPLACED') return 'displaced'
-    if (letterStatus === 'INCORRECT') return 'incorrect'
+    return letterStatus ?? 'default'
   }
 
   return (
     <motion.div
-      className={`
-        rounded-sm flex justify-center items-center w-12 h-12 shadow
-        border-slate-50 border-2
-      `}
+      className="rounded-sm flex justify-center items-center w-12 h-12 shadow border-slate-50 border-2"
       variants={guessLetterVariants}
       animate={getAnimate()}
       data-testid="guess-letter"

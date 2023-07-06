@@ -1,7 +1,11 @@
 import React, { ReactNode, createContext, useState } from 'react'
-import { GUESSES_AMOUNT, WORD_SIZE } from '../../constants'
+import {
+  GUESSES_AMOUNT,
+  GUESSES_ANIMATION_DURATION_IN_MILISECONDS,
+  WORD_SIZE,
+} from '../../constants'
 import { allowedWords } from '../../database'
-import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
+import useGameStatusStorage from '../../hooks/useGameStatusStorage'
 import {
   GameFinishStatus,
   GlobalContextInterface,
@@ -131,8 +135,10 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   const finishGame = (gameFinishStatus: GameFinishStatus) => {
-    setGameFinishStatus(gameFinishStatus)
-    gameStatusStorage.finishGame(gameFinishStatus)
+    setTimeout(() => {
+      setGameFinishStatus(gameFinishStatus)
+      gameStatusStorage.finishGame(gameFinishStatus)
+    }, GUESSES_ANIMATION_DURATION_IN_MILISECONDS)
   }
 
   const confirmCurrentGuess = () => {

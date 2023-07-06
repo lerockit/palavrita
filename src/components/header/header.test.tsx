@@ -1,53 +1,52 @@
-// import { vi } from 'vitest'
-// import Header from '.'
-// import { renderWithGlobalContext } from '../../test/setup'
+import Header from '.'
+import { renderWithRouterContext } from '../../test/utils'
 
-// describe('<Header />', () => {
-//   const setCurrentPage = vi.fn()
+describe('<Header />', () => {
+  const setCurrentRoute = jest.fn()
 
-//   afterEach(() => vi.clearAllMocks())
+  afterEach(() => jest.clearAllMocks())
 
-//   it('Should call setCurrentPage with correct params when click on help button', () => {
-//     const { getByTestId } = renderWithGlobalContext(<Header />, {
-//       setCurrentPage,
-//     })
+  it('Should call setCurrentRoute with correct params when click on help button', () => {
+    const { getByTestId } = renderWithRouterContext(<Header />, {
+      setCurrentRoute,
+    })
 
-//     const helpPageButton = getByTestId('help-page-button')
-//     helpPageButton.click()
-//     expect(setCurrentPage).toHaveBeenCalledTimes(1)
-//     expect(setCurrentPage).toHaveBeenCalledWith('HELP')
-//   })
+    const helpPageButton = getByTestId('help-page-button')
+    helpPageButton.click()
+    expect(setCurrentRoute).toHaveBeenCalledTimes(1)
+    expect(setCurrentRoute).toHaveBeenCalledWith('HELP')
+  })
 
-//   it('Should call setCurrentPage with correct params when click on logo', () => {
-//     const { getByTestId } = renderWithGlobalContext(<Header />, {
-//       setCurrentPage,
-//     })
+  it('Should call setCurrentRoute with correct params when click on logo', () => {
+    const { getByTestId } = renderWithRouterContext(<Header />, {
+      setCurrentRoute,
+    })
 
-//     const logo = getByTestId('logo')
-//     logo.click()
-//     expect(setCurrentPage).toHaveBeenCalledTimes(1)
-//     expect(setCurrentPage).toHaveBeenCalledWith('HOME')
-//   })
+    const logo = getByTestId('logo')
+    logo.click()
+    expect(setCurrentRoute).toHaveBeenCalledTimes(1)
+    expect(setCurrentRoute).toHaveBeenCalledWith('HOME')
+  })
 
-//   it('Should call setCurrentPage with correct params when click on statistics button', () => {
-//     const { getByTestId } = renderWithGlobalContext(<Header />, {
-//       setCurrentPage,
-//     })
+  it('Should call setCurrentRoute with correct params when click on statistics button', () => {
+    const { getByTestId } = renderWithRouterContext(<Header />, {
+      setCurrentRoute,
+    })
 
-//     const statisticsPageButton = getByTestId('statistics-page-button')
-//     statisticsPageButton.click()
-//     expect(setCurrentPage).toHaveBeenCalledTimes(1)
-//     expect(setCurrentPage).toHaveBeenCalledWith('STATISTICS')
-//   })
+    const statisticsPageButton = getByTestId('statistics-page-button')
+    statisticsPageButton.click()
+    expect(setCurrentRoute).toHaveBeenCalledTimes(1)
+    expect(setCurrentRoute).toHaveBeenCalledWith('STATISTICS')
+  })
 
-//   it('Should call setCurrentPage with correct params when click on about button', () => {
-//     const { getByTestId } = renderWithGlobalContext(<Header />, {
-//       setCurrentPage,
-//     })
+  it('Should call setCurrentRoute with correct params when click on about button', () => {
+    const { getByTestId } = renderWithRouterContext(<Header />, {
+      setCurrentRoute,
+    })
 
-//     const aboutPageButton = getByTestId('about-page-button')
-//     aboutPageButton.click()
-//     expect(setCurrentPage).toHaveBeenCalledTimes(1)
-//     expect(setCurrentPage).toHaveBeenCalledWith('ABOUT')
-//   })
-// })
+    const aboutPageButton = getByTestId('about-page-button')
+    aboutPageButton.click()
+    expect(setCurrentRoute).toHaveBeenCalledTimes(1)
+    expect(setCurrentRoute).toHaveBeenCalledWith('ABOUT')
+  })
+})

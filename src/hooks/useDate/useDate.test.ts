@@ -1,9 +1,8 @@
-import { vi } from 'vitest'
-import { useDate } from '.'
+import useDate from '.'
 
 describe('useDate', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => vi.useRealTimers())
+  beforeEach(() => jest.useFakeTimers())
+  afterEach(() => jest.useRealTimers())
 
   const year = 2023
   const month = 0
@@ -14,7 +13,7 @@ describe('useDate', () => {
   const date = new Date(year, month, day, hour, minute, second)
 
   it('Should return today formated  when getToday is called', async () => {
-    vi.setSystemTime(date)
+    jest.setSystemTime(date)
 
     const { getToday } = useDate()
 
@@ -38,7 +37,7 @@ describe('useDate', () => {
 
     expect(isSameDate(fakeDate)).toBeFalsy()
 
-    vi.setSystemTime(new Date(fakeYear, fakeMonth, fakeDay))
+    jest.setSystemTime(new Date(fakeYear, fakeMonth, fakeDay))
 
     expect(isSameDate(fakeDate)).toBeTruthy()
   })

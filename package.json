@@ -8,7 +8,9 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --watch"
+    "test": "jest --coverage=false",
+    "test-watch": "jest --watch --coverage=false",
+    "test-coverage": "jest --coverage=true"
   },
   "dependencies": {
     "framer-motion": "^10.12.18",

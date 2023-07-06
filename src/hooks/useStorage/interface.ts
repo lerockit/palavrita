@@ -1,5 +1,5 @@
 export interface UseStorageHook<T> {
-  getStorage: () => T
+  getStorage: () => T | null
   setStorage: (payload: T) => void
 }
 

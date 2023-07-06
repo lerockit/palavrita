@@ -44,7 +44,7 @@ const Help: React.FC = () => {
   }
 
   return (
-    <RouteContainer key="HELP">
+    <RouteContainer routeKey="HELP">
       <div className="w-full px-8" data-testid="help-page">
         <Title>Como jogar?</Title>
         <ul className="flex flex-col gap-4 w-full pt-8 list-disc drop-shadow font-light tracking-wide pb-4">

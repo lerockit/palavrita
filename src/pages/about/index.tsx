@@ -8,7 +8,7 @@ const About: React.FC = () => {
   const aboutPicutre = '/about_picture.png'
 
   return (
-    <RouteContainer key="ABOUT">
+    <RouteContainer routeKey="ABOUT">
       <div
         className="w-full px-8 flex flex-col items-center"
         data-testid="about-page"

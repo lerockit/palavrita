@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../../contexts/global'
 import { Guess as GuessType, Letter } from '../../contexts/global/interface'
-import { useGameStatusStorage } from '../../hooks/useGameStatusStorage'
+import useGameStatusStorage from '../../hooks/useGameStatusStorage'
 import Guess from '../guess'
 import { AllowedLetterId } from '../keyboard/interfaces'
 import Timer from '../timer'

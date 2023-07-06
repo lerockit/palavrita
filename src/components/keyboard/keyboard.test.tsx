@@ -1,8 +1,7 @@
 import { fireEvent } from '@testing-library/react'
-import { describe, vi } from 'vitest'
 import Keyboard from '.'
 import { GlobalContextInterface, Letter } from '../../contexts/global/interface'
-import { renderWithGlobalContext } from '../../test/setup'
+import { renderWithGlobalContext } from '../../test/utils'
 
 describe('<Keyboard />', () => {
   const letterMock: Letter = { id: 'A', status: 'INCORRECT' }
@@ -18,7 +17,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call addLetter passing correct params when a letterButton is clicked', () => {
-    const addLetter = vi.fn()
+    const addLetter = jest.fn()
     const { id } = letterMock
     const { getByText } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
@@ -30,7 +29,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call addLetter passing correct params when a letter key is pressed', () => {
-    const addLetter = vi.fn()
+    const addLetter = jest.fn()
     const { id } = letterMock
     const { container } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
@@ -41,7 +40,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should not call actualGuess setter when a not allowed letter key is pressed', () => {
-    const addLetter = vi.fn()
+    const addLetter = jest.fn()
     const { container } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
       addLetter,
@@ -51,7 +50,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call removeLetter when delete button is clicked', () => {
-    const removeLetter = vi.fn()
+    const removeLetter = jest.fn()
     const { getByTestId } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
       removeLetter,
@@ -62,7 +61,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call removeLetter when backspace key is pressed', () => {
-    const removeLetter = vi.fn()
+    const removeLetter = jest.fn()
     const { container } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
       removeLetter,
@@ -72,7 +71,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call confirmCurrentGuess when confirm button is clicked', () => {
-    const confirmCurrentGuess = vi.fn()
+    const confirmCurrentGuess = jest.fn()
     const { getByTestId } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
       confirmCurrentGuess,
@@ -83,7 +82,7 @@ describe('<Keyboard />', () => {
   })
 
   it('Should call confirmCurrentGuess when enter key is pressed', () => {
-    const confirmCurrentGuess = vi.fn()
+    const confirmCurrentGuess = jest.fn()
     const { container } = renderWithGlobalContext(<Keyboard />, {
       ...fakeContext,
       confirmCurrentGuess,

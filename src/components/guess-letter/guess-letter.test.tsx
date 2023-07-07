@@ -3,7 +3,7 @@ import { GUESS_ANIMATION_DURATION_IN_MILISECONDS } from '../../constants'
 import { GlobalContextInterface } from '../../contexts/global/interface'
 import { renderWithGlobalContext, waitForAnimation } from '../../test/utils'
 import { hex2rgba } from '../../utils/hex-transform'
-import theme from '../../utils/tw-config'
+import theme from '../../utils/theme'
 
 describe('<GuessLetter />', () => {
   const fakeContext: Partial<GlobalContextInterface> = {
@@ -111,7 +111,6 @@ describe('<GuessLetter />', () => {
     }
 
     await waitForAnimation(() => {
-      console.log(letterStatusElement.style.borderColor)
       expect(letterStatusElement).toHaveStyle(expectedStyle)
     }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })

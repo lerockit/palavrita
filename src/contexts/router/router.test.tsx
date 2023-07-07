@@ -10,7 +10,7 @@ import { waitForAnimation } from '../../test/utils'
 const getTodayMock = jest.fn()
 const isSameDateMock = jest.fn()
 const addGuessMock = jest.fn()
-const finisGameMock = jest.fn()
+const finishGameMock = jest.fn()
 const refreshGameMock = jest.fn()
 const getPayloadMock = jest.fn()
 
@@ -28,7 +28,7 @@ jest.mock('../../hooks/useDate', () => {
 jest.mock('../../hooks/useGameStatusStorage', () => {
   return () => ({
     addGuess: addGuessMock,
-    finisGame: finisGameMock,
+    finishGame: finishGameMock,
     refreshGame: refreshGameMock,
     getPayload: getPayloadMock,
   })

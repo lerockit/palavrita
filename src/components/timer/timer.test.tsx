@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import Timer from '.'
 
 describe('<Timer />', () => {
@@ -25,7 +26,7 @@ describe('<Timer />', () => {
       getByText(`${hourRemaining}:${minuteRemaining}:${secondRemaining}`)
     ).toBeTruthy()
 
-    await jest.advanceTimersByTimeAsync(1000)
+    await act(async () => await jest.advanceTimersByTimeAsync(1000))
 
     const secondRemainingUpdated = '58'
 

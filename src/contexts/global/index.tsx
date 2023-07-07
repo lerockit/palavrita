@@ -23,8 +23,6 @@ export const globalContextDefault: GlobalContextInterface = {
   getPreviousLetters: null as any,
   hasError: false,
   gameFinishStatus: null,
-  setGameFinishStatus: null as any,
-  refreshGame: null as any,
 }
 
 export const GlobalContext =
@@ -153,8 +151,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (!hasGuessesLeft()) return finishGame('LOST')
   }
 
-  const refreshGame = () => {}
-
   return (
     <GlobalContext.Provider
       value={{
@@ -166,8 +162,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         getPreviousLetters,
         hasError,
         gameFinishStatus,
-        setGameFinishStatus,
-        refreshGame,
       }}
     >
       {children}

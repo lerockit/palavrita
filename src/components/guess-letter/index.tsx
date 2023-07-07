@@ -8,7 +8,7 @@ import {
 } from '../../constants'
 import { GlobalContext } from '../../contexts/global'
 import { hex2rgba } from '../../utils/hex-transform'
-import theme from '../../utils/tw-config'
+import theme from '../../utils/theme'
 import { GuessLetterProps } from './interface'
 
 const GuessLetter: React.FC<GuessLetterProps> = ({

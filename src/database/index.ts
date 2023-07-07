@@ -104,6 +104,7 @@ export const allowedWords: AllowedWord[] = [
   'REGRE',
   'ZANGO',
   'AGUDO',
+  'BOLOR',
   'ILUDI',
   'PEGAI',
   'COADA',

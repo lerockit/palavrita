@@ -94,7 +94,7 @@ const Help: React.FC = () => {
               Se a letra for destacada da cor{' '}
               <span className="font-medium text-pink-300">vermelha</span> ela{' '}
               <span className="font-medium text-pink-300">não está</span>{' '}
-              presenta na palavra:
+              presente na palavra:
             </p>
             <div className="pt-6">
               <Guess guess={fakeGuesses.INCORRECT} />

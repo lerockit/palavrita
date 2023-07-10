@@ -153,7 +153,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const refreshGame = () => {
     gameStatusStorage.refreshGame()
     setCurrentGuess([])
-    console.log(currentGuess)
     setPreviousGuesses([])
     setGameFinishStatus(null)
   }

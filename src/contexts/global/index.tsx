@@ -23,6 +23,7 @@ export const globalContextDefault: GlobalContextInterface = {
   getPreviousLetters: null as any,
   hasError: false,
   gameFinishStatus: null,
+  refreshGame: null as any,
 }
 
 export const GlobalContext =
@@ -71,8 +72,6 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setCurrentGuess(currentGuess.letters.slice(0, -1))
     setHasError(false)
   }
-
-  const cleanCurrentGuess = () => setCurrentGuess([])
 
   const setLettersStatus: (letter: Letter[]) => Letter[] = (letters) => {
     const dailyWordLettersToCompare = [...dailyWordLetters]
@@ -144,11 +143,19 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (!allowedWords.includes(currentGuess.word)) return setHasError(true)
 
     addPreviousGuess(currentGuess.letters)
-    cleanCurrentGuess()
+    setCurrentGuess([])
     setHasError(false)
 
     if (allLettersMatch()) return finishGame('WON')
     if (!hasGuessesLeft()) return finishGame('LOST')
+  }
+
+  const refreshGame = () => {
+    gameStatusStorage.refreshGame()
+    setCurrentGuess([])
+    console.log(currentGuess)
+    setPreviousGuesses([])
+    setGameFinishStatus(null)
   }
 
   return (
@@ -162,6 +169,7 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         getPreviousLetters,
         hasError,
         gameFinishStatus,
+        refreshGame,
       }}
     >
       {children}

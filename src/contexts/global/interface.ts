@@ -9,6 +9,7 @@ export interface GlobalContextInterface {
   getPreviousLetters: () => Letter[]
   hasError: boolean
   gameFinishStatus: GameFinishStatus
+  refreshGame: () => void
 }
 
 export interface Guess {

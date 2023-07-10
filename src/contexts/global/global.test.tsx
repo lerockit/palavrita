@@ -35,7 +35,7 @@ const fakeGetPayload = {
 describe('<GlobalProvider />', () => {
   afterEach(() => jest.clearAllMocks())
 
-  it('Should flat when get previousLetters', () => {
+  it('Should flat all Letters when get previousLetters', () => {
     const previousGuesses: Guesses = [
       {
         letters: [
@@ -514,5 +514,57 @@ describe('<GlobalProvider />', () => {
     )
     expect(finishGameMock).toHaveBeenCalledTimes(1)
     expect(finishGameMock).toHaveBeenCalledWith('LOST')
+  })
+
+  it('Should call refreshGame from useGameStatusStorage and cleaning context when refreshGame is called', () => {
+    const previousGuesses: Guesses = [
+      {
+        letters: [{ id: 'A', status: null }],
+        word: 'A',
+      },
+    ]
+    getPayloadMock.mockReturnValue({
+      ...fakeGetPayload,
+      guesses: previousGuesses,
+    })
+
+    const TestComponent = () => {
+      const { refreshGame, addLetter, currentGuess, previousGuesses } =
+        useContext(GlobalContext)
+      return (
+        <>
+          <button
+            data-testid="test-component-refresh-button"
+            onClick={refreshGame}
+          />
+          <button
+            data-testid="test-component-add-button"
+            onClick={() => addLetter({ id: 'B', status: null })}
+          ></button>
+          <span>{previousGuesses[0] ? previousGuesses[0].word : ''}</span>
+          <span>{currentGuess ? currentGuess.word : ''}</span>
+        </>
+      )
+    }
+
+    const { getByText, getByTestId, queryByText } = render(
+      <GlobalProvider>
+        <TestComponent />
+      </GlobalProvider>
+    )
+
+    const addLetterButton = getByTestId('test-component-add-button')
+    const refreshButton = getByTestId('test-component-refresh-button')
+
+    act(() => addLetterButton.click())
+
+    expect(getByText('A')).toBeInTheDocument()
+    expect(getByText('B')).toBeInTheDocument()
+
+    act(() => refreshButton.click())
+
+    expect(refreshGameMock).toHaveBeenCalledTimes(1)
+    expect(queryByText('A')).not.toBeInTheDocument()
+    expect(queryByText('B')).not.toBeInTheDocument()
   })
 })

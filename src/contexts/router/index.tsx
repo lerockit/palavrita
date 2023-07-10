@@ -35,8 +35,8 @@ const RouterProvider: React.FC = () => {
   const [currentRoute, setCurrentRouteState] = useState<Route>('' as any)
 
   const { isSameDate } = useDate()
-  const { getPayload, refreshGame } = useGameStatusStorage()
-  const { gameFinishStatus } = useContext(GlobalContext)
+  const { getPayload } = useGameStatusStorage()
+  const { gameFinishStatus, refreshGame } = useContext(GlobalContext)
 
   const setCurrentRoute = (route: Route) => {
     if (currentRoute === route) return
@@ -44,14 +44,18 @@ const RouterProvider: React.FC = () => {
   }
 
   useEffect(() => {
-    const { lastDate, gameFinishStatus } = getPayload()
-    if (!isSameDate(lastDate)) return refreshGame()
+    const { lastDate } = getPayload()
+    if (!isSameDate(lastDate)) {
+      refreshGame()
+      return setCurrentRoute('HOME')
+    }
     if (gameFinishStatus) return setCurrentRoute('STATISTICS')
     setCurrentRoute('HOME')
   }, [])
 
   useEffect(() => {
-    if (gameFinishStatus) setCurrentRoute('STATISTICS')
+    if (gameFinishStatus) return setCurrentRoute('STATISTICS')
+    setCurrentRoute('HOME')
   }, [gameFinishStatus])
 
   return (

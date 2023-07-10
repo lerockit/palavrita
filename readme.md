@@ -1,3 +1,5 @@
+<br />
+
 ![https://palavrita.com](./palavrita_logo.png)
 
 ## O que é?

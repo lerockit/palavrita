@@ -1,11 +1,10 @@
 import { render } from '@testing-library/react'
 import { useContext } from 'react'
-import { act } from 'react-dom/test-utils'
 import RouterProvider, { RouterContext } from '.'
 import Help from '../../pages/help'
 import Home from '../../pages/home'
 import Statistics from '../../pages/statistics'
-import { waitForAnimation } from '../../test/utils'
+import { renderWithGlobalContext, waitForAnimation } from '../../test/utils'
 
 const getTodayMock = jest.fn()
 const isSameDateMock = jest.fn()
@@ -29,7 +28,6 @@ jest.mock('../../hooks/useGameStatusStorage', () => {
   return () => ({
     addGuess: addGuessMock,
     finishGame: finishGameMock,
-    refreshGame: refreshGameMock,
     getPayload: getPayloadMock,
   })
 })
@@ -98,26 +96,32 @@ describe('<RouterProvider />', () => {
     expect(getByText('HELP')).toBeInTheDocument()
   })
 
-  it('Should call refreshGame if isSameDate is false', () => {
+  it('Should call refreshGame and setCurrentRoute to Home if isSameDate is false', () => {
     getPayloadMock.mockReturnValue(fakeGetPayload)
     isSameDateMock.mockReturnValue(false)
 
-    render(<RouterProvider />)
+    const HomeTestComponent = <>HOME</>
 
-    act(() => expect(refreshGameMock).toHaveBeenCalledTimes(1))
+    ;(Home as jest.Mock).mockReturnValue(HomeTestComponent)
+
+    const { getByText } = renderWithGlobalContext(<RouterProvider />, {
+      refreshGame: refreshGameMock,
+    })
+
+    expect(refreshGameMock).toHaveBeenCalledTimes(1)
+    expect(getByText('HOME')).toBeInTheDocument()
   })
 
   it('Should call <Statistics /> if gameFinishStatus is not null', () => {
-    getPayloadMock.mockReturnValue({
-      ...fakeGetPayload,
-      gameFinishStatus: 'WON',
-    })
+    getPayloadMock.mockReturnValue(fakeGetPayload)
     isSameDateMock.mockReturnValue(true)
 
     const StatisticsTestComponent = () => <>STATISTICS</>
     ;(Statistics as jest.Mock).mockReturnValue(<StatisticsTestComponent />)
 
-    const { getByText } = render(<RouterProvider />)
+    const { getByText } = renderWithGlobalContext(<RouterProvider />, {
+      gameFinishStatus: 'WON',
+    })
 
     expect(getByText('STATISTICS')).toBeInTheDocument()
   })
@@ -131,7 +135,9 @@ describe('<RouterProvider />', () => {
     ;(Home as jest.Mock).mockReturnValue(<HomeTestComponent />)
     ;(Statistics as jest.Mock).mockReturnValue(<StatisticsTestComponent />)
 
-    const { getByText } = render(<RouterProvider />)
+    const { getByText } = renderWithGlobalContext(<RouterProvider />, {
+      gameFinishStatus: null,
+    })
 
     expect(getByText('HOME')).toBeInTheDocument()
   })

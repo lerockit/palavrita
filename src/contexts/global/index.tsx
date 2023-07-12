@@ -1,4 +1,7 @@
 import React, { ReactNode, createContext, useState } from 'react'
+import NotAllowedWordNotification from '../../components/notifications/not-allowed-word'
+import WonGameNotification from '../../components/notifications/won-game'
+import WordLengthSizeNotification from '../../components/notifications/word-length-size'
 import {
   GUESSES_AMOUNT,
   GUESSES_ANIMATION_DURATION_IN_MILISECONDS,
@@ -6,6 +9,7 @@ import {
 } from '../../constants'
 import { allowedWords } from '../../database'
 import useGameStatusStorage from '../../hooks/useGameStatusStorage'
+import useNotification from '../../hooks/useNotification'
 import {
   GameFinishStatus,
   GlobalContextInterface,
@@ -33,6 +37,7 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const gameStatusStorage = useGameStatusStorage()
   const gameStatusStoragePayload = useGameStatusStorage().getPayload()
   const dailyWordLetters = gameStatusStoragePayload.dailyWord.split('')
+  const { notify } = useNotification()
 
   const [currentGuess, setCurrentGuessState] = useState<Guess>({
     word: '',
@@ -135,12 +140,24 @@ const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setTimeout(() => {
       setGameFinishStatus(gameFinishStatus)
       gameStatusStorage.finishGame(gameFinishStatus)
+
+      if (gameFinishStatus === 'WON') {
+        notify(WonGameNotification, {
+          contentProps: { guessIndex: previousGuesses.length + 1 },
+        })
+      }
     }, GUESSES_ANIMATION_DURATION_IN_MILISECONDS)
   }
 
   const confirmCurrentGuess = () => {
-    if (currentGuess.word.length < WORD_SIZE) return
-    if (!allowedWords.includes(currentGuess.word)) return setHasError(true)
+    if (currentGuess.word.length < WORD_SIZE) {
+      return notify(WordLengthSizeNotification, { theme: 'ERROR' })
+    }
+
+    if (!allowedWords.includes(currentGuess.word)) {
+      notify(NotAllowedWordNotification, { theme: 'ERROR' })
+      return setHasError(true)
+    }
 
     addPreviousGuess(currentGuess.letters)
     setCurrentGuess([])

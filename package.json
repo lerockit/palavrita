@@ -15,7 +15,8 @@
   "dependencies": {
     "framer-motion": "^10.12.18",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@swc/core": "^1.3.68",

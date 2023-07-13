@@ -11,11 +11,17 @@ jest.mock('react-hot-toast', () => {
     },
   }
 })
-
 describe('useNotification', () => {
+  afterEach(() => jest.clearAllMocks())
+
   it('Should call toast from react-hot-toast with correct params when notify is called', () => {
     const { custom } = toast
-    ;(custom as unknown as jest.Mock).mockImplementation(toastCustomMock)
+    let customCallback
+    ;(custom as unknown as jest.Mock).mockImplementation(
+      toastCustomMock.mockImplementation((callback) => {
+        customCallback = callback
+      })
+    )
     const MockElement = () => <></>
     const mockConfig: NotificationConfigs = {
       duration: 1000,
@@ -25,7 +31,7 @@ describe('useNotification', () => {
     notify(MockElement, mockConfig)
 
     expect(toastCustomMock).toHaveBeenCalledTimes(1)
-    expect(toastCustomMock).toHaveBeenCalledWith(expect.any(Function), {
+    expect(toastCustomMock).toHaveBeenCalledWith(customCallback, {
       duration: 1000,
       position: 'bottom-center',
     })

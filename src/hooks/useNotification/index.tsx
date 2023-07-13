@@ -20,12 +20,22 @@ const useNotification = () => {
       ...configs,
     }
 
-    toast(() => <ContentElement {...contentProps} />, {
-      className: `${notificationThemeClasses[theme]}
-        rounded-lg text-slate-50 shadow px-4 py-2 text-xs font-medium border-2 uppercase tracking-wider text-center`,
-      duration,
-      position,
-    })
+    toast.custom(
+      (t) => {
+        return (
+          <div
+            className={`
+                ${notificationThemeClasses[theme]}
+                ${t.visible ? 'animate-fade-in' : 'animate-fade-out'}
+                rounded text-slate-50 shadow px-4 py-2 text-xs font-medium border-2 uppercase tracking-wider text-center
+              `}
+          >
+            <ContentElement {...contentProps} />
+          </div>
+        )
+      },
+      { duration, position }
+    )
   }
 
   return {

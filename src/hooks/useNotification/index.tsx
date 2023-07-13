@@ -13,7 +13,7 @@ const useNotification = () => {
     configs: NotificationConfigs = {}
   ) => {
     const { duration, theme, contentProps, position }: NotificationConfigs = {
-      duration: 2000,
+      duration: 3000,
       theme: 'SUCCESS',
       contentProps: {},
       position: 'top-center',

@@ -14,6 +14,8 @@ export const ACTIONS_KEY_MAPPER: ActionsKeyMapper = {
 export const LINKS = {
   INSTAGRAM: 'http://instagram.com/lerockit',
   GITHUB_PALAVRITA: 'http://github.com/lerockit/palavrita',
+  GITHUB_PALAVRITA_ROADMAP:
+    'https://github.com/lerockit/palavrita#futuras-novidades',
   WORDLE: 'https://www.nytimes.com/games/wordle/index.html',
   LETRECO: 'https://www.gabtoschi.com/letreco/',
   TERMO: 'https://term.ooo/',

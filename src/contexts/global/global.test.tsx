@@ -3,6 +3,9 @@ import React, { useContext } from 'react'
 import { act } from 'react-dom/test-utils'
 import GlobalProvider, { GlobalContext } from '.'
 import { AllowedLetterId } from '../../components/keyboard/interfaces'
+import NotAllowedWordNotification from '../../components/notifications/not-allowed-word'
+import WonGameNotification from '../../components/notifications/won-game'
+import WordLengthSizeNotification from '../../components/notifications/word-length-size'
 import { GUESSES_ANIMATION_DURATION_IN_MILISECONDS } from '../../constants'
 import { asyncTimeout } from '../../test/utils'
 import { Guesses, Letter } from './interface'
@@ -11,6 +14,7 @@ const addGuessMock = jest.fn()
 const finishGameMock = jest.fn()
 const refreshGameMock = jest.fn()
 const getPayloadMock = jest.fn()
+const notifyMock = jest.fn()
 
 jest.mock('../../hooks/useGameStatusStorage', () => {
   return () => ({
@@ -18,6 +22,12 @@ jest.mock('../../hooks/useGameStatusStorage', () => {
     finishGame: finishGameMock,
     refreshGame: refreshGameMock,
     getPayload: getPayloadMock,
+  })
+})
+
+jest.mock('../../hooks/useNotification', () => {
+  return () => ({
+    notify: notifyMock,
   })
 })
 
@@ -327,7 +337,7 @@ describe('<GlobalProvider />', () => {
     })
   })
 
-  it('Should not addPreviousGuesses when confirm with currentGuess word length smaller than WORD_SIZE', () => {
+  it('Should not addPreviousGuesses and call notify when confirm with currentGuess word length smaller than WORD_SIZE', () => {
     getPayloadMock.mockReturnValue({ ...fakeGetPayload, guesses: ['mock'] })
     const TestComponent = () => {
       const fakeLetter: Letter = { id: 'A', status: null }
@@ -365,6 +375,10 @@ describe('<GlobalProvider />', () => {
     expect(
       getByTestId('test-component-previous-guesses-length')
     ).toHaveTextContent('1')
+    expect(notifyMock).toBeCalledTimes(1)
+    expect(notifyMock).toBeCalledWith(WordLengthSizeNotification, {
+      theme: 'ERROR',
+    })
   })
 
   it('Should set hasError true when currentGuess word is not included in allowedWords', () => {
@@ -407,9 +421,13 @@ describe('<GlobalProvider />', () => {
     act(() => confirmButton.click())
 
     expect(getByTestId('test-component-has-error')).toHaveTextContent('error')
+    expect(notifyMock).toBeCalledTimes(1)
+    expect(notifyMock).toBeCalledWith(NotAllowedWordNotification, {
+      theme: 'ERROR',
+    })
   })
 
-  it('Should finishGame and call finishGame from useGameStatusStorage with correct params when allLettersMatch', async () => {
+  it('Should finishGame, call finishGame from useGameStatusStorage with correct params and call notify with correct params when allLettersMatch', async () => {
     getPayloadMock.mockReturnValue({ ...fakeGetPayload, guesses: ['mock'] })
     const TestComponent = () => {
       const lettersIdMock: AllowedLetterId[] = ['G', 'R', 'I', 'T', 'O']
@@ -459,6 +477,10 @@ describe('<GlobalProvider />', () => {
     )
     expect(finishGameMock).toHaveBeenCalledTimes(1)
     expect(finishGameMock).toHaveBeenCalledWith('WON')
+    expect(notifyMock).toHaveBeenCalledTimes(1)
+    expect(notifyMock).toHaveBeenCalledWith(WonGameNotification, {
+      contentProps: { guessIndex: 2 },
+    })
   })
 
   it('Should finishGame and call finishGame from useGameStatusStorage with correct params when allLettersMatch', async () => {

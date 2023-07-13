@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-const ArrowLeft: ReactNode = (
+const ArrowLeftIcon: ReactNode = (
   <svg className="w-full fill-current" viewBox="0 0 16 14">
     <path
       fillRule="evenodd"
@@ -10,4 +10,4 @@ const ArrowLeft: ReactNode = (
   </svg>
 )
 
-export default ArrowLeft
+export default ArrowLeftIcon

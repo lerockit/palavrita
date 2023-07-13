@@ -99,7 +99,7 @@ describe('<GuessLetter />', () => {
     }, GUESS_ANIMATION_DURATION_IN_MILISECONDS)
   })
 
-  it('Should render with correct border classes when hasError is true and isCurrent is true', async () => {
+  it('Should render with correct styles when hasError is true and isCurrent is true', async () => {
     const { getByTestId } = renderWithGlobalContext(
       <GuessLetter letterIndex={1} isCurrent={true} />,
       { ...fakeContext, hasError: true }
@@ -108,6 +108,7 @@ describe('<GuessLetter />', () => {
     const letterStatusElement = getByTestId('guess-letter')
     const expectedStyle = {
       borderColor: hex2rgba(theme.backgroundColor.pink[600]),
+      transform: 'none',
     }
 
     await waitForAnimation(() => {

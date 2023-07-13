@@ -55,6 +55,10 @@ const GuessLetter: React.FC<GuessLetterProps> = ({
     },
     error: {
       borderColor: hex2rgba(theme.backgroundColor.pink[600]),
+      x: [0, -3, 3, -3, 3, 0],
+      transition: {
+        duration: 0.3,
+      },
     },
     CORRECT: getStatusVariant(theme.backgroundColor.emerald[500]),
     DISPLACED: getStatusVariant(theme.backgroundColor.amber[500]),

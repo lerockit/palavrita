@@ -16,14 +16,14 @@ export const EMOGI_LETTER_STATUS_MAPPER: Record<LetterStatus | 'NULL', string> =
   {
     CORRECT: '🟩',
     DISPLACED: '🟨',
-    INCORRECT: '🟥',
+    INCORRECT: '⬛',
     NULL: '⬜',
   }
 
 export const LINKS = {
-  INSTAGRAM: 'http://instagram.com/lerockit',
+  INSTAGRAM: 'https://instagram.com/lerockit',
   PALAVRITA: 'https://palavrita.com',
-  GITHUB_PALAVRITA: 'http://github.com/lerockit/palavrita',
+  GITHUB_PALAVRITA: 'https://github.com/lerockit/palavrita',
   GITHUB_PALAVRITA_ROADMAP:
     'https://github.com/lerockit/palavrita#futuras-novidades',
   WORDLE: 'https://www.nytimes.com/games/wordle/index.html',

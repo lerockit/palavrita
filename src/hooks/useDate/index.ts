@@ -19,9 +19,15 @@ const useDate: () => UseDateHook = () => {
     return dateToCompare === getToday()
   }
 
+  const getTodayInBRFormat = (): string => {
+    const today = getToday()
+    return today.split('-').reverse().join('/')
+  }
+
   return {
     getToday,
     isSameDate,
+    getTodayInBRFormat,
   }
 }
 

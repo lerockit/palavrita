@@ -64,3 +64,24 @@ export const mockLocalStorage = () => {
 
   return { setItemMock, getItemMock }
 }
+
+export const mockNavigator = () => {
+  const writeTextMock = jest.fn()
+  const shareMock = jest.fn()
+
+  beforeEach(() => {
+    window.navigator.share = shareMock
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: writeTextMock,
+      },
+    })
+  })
+
+  afterEach(() => {
+    writeTextMock.mockRestore()
+    shareMock.mockRestore()
+  })
+
+  return { writeTextMock, shareMock }
+}

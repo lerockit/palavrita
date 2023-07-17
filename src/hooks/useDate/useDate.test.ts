@@ -12,7 +12,7 @@ describe('useDate', () => {
   const second = 0
   const date = new Date(year, month, day, hour, minute, second)
 
-  it('Should return today formated  when getToday is called', async () => {
+  it('Should return today formated when getToday is called', async () => {
     jest.setSystemTime(date)
 
     const { getToday } = useDate()
@@ -21,6 +21,19 @@ describe('useDate', () => {
       `${String(year)}-${String(month + 1).padStart(2, '0')}-${String(
         day
       ).padStart(2, '0')}`
+    )
+  })
+
+  it('Should return today formated when getTodayInBRFormat is called', async () => {
+    jest.setSystemTime(date)
+
+    const { getTodayInBRFormat } = useDate()
+
+    expect(getTodayInBRFormat()).toBe(
+      `${String(day).padStart(2, '0')}/${String(month + 1).padStart(
+        2,
+        '0'
+      )}/${String(year)}`
     )
   })
 

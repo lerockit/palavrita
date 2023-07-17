@@ -60,6 +60,7 @@ const Keyboard: React.FC = () => {
         <KeyboardButton
           classes="bg-slate-50"
           handleClick={() => handleClick({ action: 'DELETE' })}
+          aria-label="Deletar"
           data-testid="delete-button"
         >
           <IconBox iconElement={BackspaceIcon} color="purple-500" />
@@ -69,6 +70,7 @@ const Keyboard: React.FC = () => {
         <KeyboardButton
           classes="w-[30%] bg-slate-50 text-purple-500"
           handleClick={() => handleClick({ action: 'CONFIRM' })}
+          aria-label="Confirmar"
           data-testid="confirm-button"
         >
           ENTER

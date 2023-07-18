@@ -2,9 +2,9 @@ import { toast } from 'react-hot-toast'
 import { NotificationConfigs, NotificationTheme } from './interface'
 
 const notificationThemeClasses: Record<NotificationTheme, string> = {
-  ERROR: 'bg-pink-600 border-pink-200',
-  SUCCESS: 'bg-emerald-600 border-emerald-200',
-  WARNING: 'bg-amber-600 border-amber-200',
+  ERROR: 'bg-pink-500 border-pink-200',
+  SUCCESS: 'bg-emerald-500 border-emerald-200',
+  WARNING: 'bg-amber-500 border-amber-200',
 }
 
 const useNotification = () => {
@@ -25,10 +25,11 @@ const useNotification = () => {
         return (
           <div
             className={`
-                ${notificationThemeClasses[theme]}
-                ${t.visible ? 'animate-fade-in' : 'animate-fade-out'}
-                rounded text-slate-50 shadow px-4 py-2 text-xs font-medium border-2 uppercase tracking-wider text-center
-              `}
+              ${notificationThemeClasses[theme]}
+              ${t.visible ? 'animate-fade-in' : 'animate-fade-out'}
+              rounded text-slate-50 shadow px-4 py-2 text-xs font-medium border-2 uppercase tracking-wider text-center
+            `}
+            data-testid="notification-container"
           >
             <ContentElement {...contentProps} />
           </div>

@@ -13,6 +13,7 @@ const Footer: React.FC = () => {
         onClick={() => setCurrentRoute('HOME')}
         icon={HomeIcon}
         text="Início"
+        aria-label="Pagina inicial"
       />
       <div className="flex flex-col gap-1 text-center">
         <span className="text-sm drop-shadow font-light">

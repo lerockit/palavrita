@@ -1,4 +1,5 @@
 import { KeyboardAction } from './components/keyboard/interfaces'
+import { LetterStatus } from './contexts/global/interface'
 
 interface ActionsKeyMapper {
   [key: string]: KeyboardAction
@@ -11,9 +12,18 @@ export const ACTIONS_KEY_MAPPER: ActionsKeyMapper = {
   BACKSPACE: 'DELETE',
 }
 
+export const EMOGI_LETTER_STATUS_MAPPER: Record<LetterStatus | 'NULL', string> =
+  {
+    CORRECT: '🟩',
+    DISPLACED: '🟨',
+    INCORRECT: '⬛',
+    NULL: '⬜',
+  }
+
 export const LINKS = {
-  INSTAGRAM: 'http://instagram.com/lerockit',
-  GITHUB_PALAVRITA: 'http://github.com/lerockit/palavrita',
+  INSTAGRAM: 'https://instagram.com/lerockit',
+  PALAVRITA: 'https://palavrita.com',
+  GITHUB_PALAVRITA: 'https://github.com/lerockit/palavrita',
   GITHUB_PALAVRITA_ROADMAP:
     'https://github.com/lerockit/palavrita#futuras-novidades',
   WORDLE: 'https://www.nytimes.com/games/wordle/index.html',

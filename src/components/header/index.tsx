@@ -14,36 +14,48 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="container px-8 py-7 flex justify-between items-start max-w-md">
-        <div className="flex gap-4">
+        <nav className="flex gap-4">
           <button
+            aria-label="Pagina Ajuda"
             onClick={() => setCurrentRoute('HELP')}
             data-testid="help-page-button"
           >
             <IconBox iconElement={QuestionMarkIcon} />
           </button>
-          <a href={LINKS.GITHUB_PALAVRITA} target="_blank" rel="noreferrer">
+          <a
+            href={LINKS.GITHUB_PALAVRITA}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Palavrita Github"
+          >
             <IconBox iconElement={GithubIcon} />
           </a>
-        </div>
+        </nav>
         <div className="w-40">
-          <button onClick={() => setCurrentRoute('HOME')} data-testid="logo">
+          <button
+            aria-label="Pagina Inicial"
+            onClick={() => setCurrentRoute('HOME')}
+            data-testid="logo"
+          >
             <Logo />
           </button>
         </div>
-        <div className="flex gap-4">
+        <nav className="flex gap-4">
           <button
+            aria-label="Pagina Estatisticas"
             onClick={() => setCurrentRoute('STATISTICS')}
             data-testid="statistics-page-button"
           >
             <IconBox iconElement={StatsIcon} />
           </button>
           <button
+            aria-label="Pagina Sobre"
             onClick={() => setCurrentRoute('ABOUT')}
             data-testid="about-page-button"
           >
             <IconBox iconElement={AboutIcon} />
           </button>
-        </div>
+        </nav>
       </header>
     </>
   )

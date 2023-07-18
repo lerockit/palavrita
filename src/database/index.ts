@@ -18432,6 +18432,7 @@ export const allowedWords: AllowedWord[] = [
   'ANEMA',
   'LAPOU',
   'ONDES',
+  'VOCES',
 ]
 
 const dailyWord: DailyWord = {

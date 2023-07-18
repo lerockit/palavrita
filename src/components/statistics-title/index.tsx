@@ -4,6 +4,7 @@ import { Guess as GuessType, Letter } from '../../contexts/global/interface'
 import useGameStatusStorage from '../../hooks/useGameStatusStorage'
 import Guess from '../guess'
 import { AllowedLetterId } from '../keyboard/interfaces'
+import ShareButton from '../share-button'
 import Timer from '../timer'
 import Title from '../title'
 
@@ -57,6 +58,7 @@ const StatisticsTitle: React.FC = () => {
             <Guess guess={dailyWordGuess} />
           </div>
           <Timer />
+          <ShareButton />
         </div>
       ) : (
         <Title>Estatísticas</Title>

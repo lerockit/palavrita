@@ -3,10 +3,9 @@ import Footer from '../../components/footer'
 import RouteContainer from '../../components/route-container'
 import Title from '../../components/title'
 import { LINKS } from '../../constants'
+import aboutPicture from '../../images/about_picture.png'
 
 const About: React.FC = () => {
-  const aboutPicutre = '/about_picture.png'
-
   return (
     <RouteContainer routeKey="ABOUT">
       <div
@@ -16,7 +15,7 @@ const About: React.FC = () => {
         <Title>Olá, Prazer</Title>
         <div className="py-8">
           <div className="bg-slate-50 p-1 rounded-sm w-36">
-            <img src={aboutPicutre} className="w-full rounded-sm" />
+            <img src={aboutPicture} className="w-full rounded-sm" />
           </div>
         </div>
         <div className="font-light drop-shadow flex flex-col gap-4 tracking-wide pb-8">

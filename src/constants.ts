@@ -16,7 +16,7 @@ export const EMOGI_LETTER_STATUS_MAPPER: Record<LetterStatus | 'NULL', string> =
   {
     CORRECT: '🟩',
     DISPLACED: '🟨',
-    INCORRECT: '⬛',
+    INCORRECT: '🟥',
     NULL: '⬜',
   }
 

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import React, { useContext } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
@@ -48,7 +49,20 @@ const ShareButton: React.FC = () => {
     navigator.share({ text: shareText })
   }
 
-  return <Button onClick={handleClick} text="Compartilhar" icon={ShareIcon} />
+  return (
+    <motion.div
+      animate={{
+        opacity: [0.7, 1, 0.7, 1, 0.7, 1, 0.7],
+        transition: {
+          duration: 2.5,
+          repeat: Infinity,
+          ease: 'linear',
+        },
+      }}
+    >
+      <Button onClick={handleClick} text="Compartilhar" icon={ShareIcon} />
+    </motion.div>
+  )
 }
 
 export default ShareButton

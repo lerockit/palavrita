@@ -23,5 +23,5 @@ export interface GameStatusStorage {
   winAmount: number
   lossAmount: number
   lastDate: string
-  dailyWord?: AllowedWord
+  dailyWord: AllowedWord
 }

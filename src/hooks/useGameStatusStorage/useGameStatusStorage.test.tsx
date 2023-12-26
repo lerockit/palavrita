@@ -29,7 +29,9 @@ jest.mock('../../database', () => ({
 const fakeDailyWord = 'FAKE-DAILY-WORD'
 const fakeDate = 'FAKE-DATE'
 
-const fakeStorageReturn: GameStatusStorage = {
+const fakeStorageReturn: Omit<GameStatusStorage, 'dailyWord'> & {
+  dailyWord?: string
+} = {
   bestStreak: 0,
   guesses: [],
   guessStatistics: [0, 0, 0, 0, 0, 0],

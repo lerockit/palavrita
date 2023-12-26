@@ -1,6 +1,7 @@
 import useGameStatusStorage from '.'
 import { Guess } from '../../contexts/global/interface'
 import { getDailyWordFromDatabase } from '../../database'
+import { GameStatusStorage } from './interface'
 
 const getTodayMock = jest.fn()
 const isSameDateMock = jest.fn()
@@ -28,7 +29,7 @@ jest.mock('../../database', () => ({
 const fakeDailyWord = 'FAKE-DAILY-WORD'
 const fakeDate = 'FAKE-DATE'
 
-const fakeStorageReturn = {
+const fakeStorageReturn: GameStatusStorage = {
   bestStreak: 0,
   guesses: [],
   guessStatistics: [0, 0, 0, 0, 0, 0],
@@ -55,6 +56,22 @@ describe('useGameStatusStorage', () => {
   it('Should call setStorage and getDailyWordFromDatabase with correct params if getStorage returns null when initialize', () => {
     ;(getDailyWordFromDatabase as jest.Mock).mockReturnValue(fakeDailyWord)
     getStorageMock.mockReturnValue(null)
+    getTodayMock.mockReturnValue(fakeDate)
+    useGameStatusStorage()
+    expect(getStorageMock).toHaveBeenCalledTimes(1)
+    expect(setStorageMock).toHaveBeenCalledTimes(1)
+    expect(getDailyWordFromDatabase).toHaveBeenCalledTimes(1)
+    expect(setStorageMock).toHaveBeenCalledWith({
+      ...fakeStorageReturn,
+      dailyWord: fakeDailyWord,
+    })
+  })
+
+  it('Should call setStorage and getDailyWordFromDatabase with correct params if getStorage not return dailyWord param', () => {
+    ;(getDailyWordFromDatabase as jest.Mock).mockReturnValue(fakeDailyWord)
+    const fakeStorageReturnWithoutDailyWord = { ...fakeStorageReturn }
+    delete fakeStorageReturnWithoutDailyWord.dailyWord
+    getStorageMock.mockReturnValue(fakeStorageReturnWithoutDailyWord)
     getTodayMock.mockReturnValue(fakeDate)
     useGameStatusStorage()
     expect(getStorageMock).toHaveBeenCalledTimes(1)

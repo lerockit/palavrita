@@ -13,7 +13,9 @@ const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
     'palavrita-game-status'
   )
 
-  if (!getStorage()) {
+  const currentStorage = getStorage()
+
+  if (!currentStorage) {
     const defaultGuessStatistics: number[] = Array(GUESSES_AMOUNT).fill(0)
     const defaultGameStatusStorage: GameStatusStorage = {
       bestStreak: 0,
@@ -29,6 +31,13 @@ const useGameStatusStorage: () => UseGameStatusStorageHook = () => {
       dailyWord: getDailyWordFromDatabase(today),
     }
     setStorage(defaultGameStatusStorage)
+  }
+
+  if (currentStorage && !currentStorage.dailyWord) {
+    setStorage({
+      ...currentStorage,
+      dailyWord: getDailyWordFromDatabase(today),
+    })
   }
 
   const addGuess = (guess: Guess) => {
